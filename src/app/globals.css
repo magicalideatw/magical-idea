@@ -1,0 +1,311 @@
+@import "tailwindcss";
+
+:root {
+  --background: #030303;
+  --foreground: #f5f5f7;
+  --gold: #c9a962;
+  --gold-light: #e8d5a3;
+  --gold-dark: #8b7340;
+  --gold-muted: rgba(201, 169, 98, 0.6);
+  --surface: #0a0a0a;
+  --surface-elevated: #141414;
+  --border: rgba(201, 169, 98, 0.12);
+  --border-hover: rgba(201, 169, 98, 0.3);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dark: var(--gold-dark);
+  --color-gold-muted: var(--gold-muted);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --font-sans: var(--font-noto-sans-tc);
+  --font-display: var(--font-noto-serif-tc);
+  --font-en: var(--font-inter);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-noto-sans-tc), system-ui, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(201, 169, 98, 0.25);
+  color: #fff;
+}
+
+/* ── Typography ── */
+.font-display {
+  font-family: var(--font-noto-serif-tc), "Noto Serif TC", serif;
+}
+
+.font-en {
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.tracking-luxury {
+  letter-spacing: 0.35em;
+}
+
+.tracking-premium {
+  letter-spacing: 0.08em;
+}
+
+/* ── Gold utilities ── */
+.gold-gradient-text {
+  background: linear-gradient(
+    135deg,
+    var(--gold-light) 0%,
+    var(--gold) 45%,
+    var(--gold-dark) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gold-border {
+  border: 1px solid var(--border);
+}
+
+.gold-glow {
+  box-shadow:
+    0 0 0 1px rgba(201, 169, 98, 0.05),
+    0 8px 40px rgba(201, 169, 98, 0.08);
+}
+
+.gold-glow-strong {
+  box-shadow:
+    0 0 0 1px rgba(201, 169, 98, 0.1),
+    0 20px 60px rgba(201, 169, 98, 0.12);
+}
+
+/* ── Glass & surfaces ── */
+.glass {
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+
+.glass-gold {
+  background: rgba(201, 169, 98, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 169, 98, 0.12);
+}
+
+/* ── Backgrounds ── */
+.hero-gradient {
+  background:
+    radial-gradient(
+      ellipse 100% 80% at 50% -30%,
+      rgba(201, 169, 98, 0.08) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 100% 50%,
+      rgba(201, 169, 98, 0.04) 0%,
+      transparent 50%
+    ),
+    linear-gradient(180deg, #080808 0%, #030303 100%);
+}
+
+.section-gradient {
+  background: linear-gradient(
+    180deg,
+    var(--background) 0%,
+    var(--surface) 40%,
+    var(--surface) 60%,
+    var(--background) 100%
+  );
+}
+
+.noise-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+.vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Animations ── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shimmer-line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(201, 169, 98, 0.35) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-gold {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(201, 169, 98, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(201, 169, 98, 0);
+  }
+}
+
+.line-button-pulse {
+  animation: pulse-gold 3s ease-in-out infinite;
+}
+
+@keyframes scroll-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 1;
+  }
+}
+
+.scroll-hint {
+  animation: scroll-hint 2s ease-in-out infinite;
+}
+
+@keyframes ken-burns {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+.ken-burns {
+  animation: ken-burns 20s ease-out forwards;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.25rem;
+  background: var(--gold);
+  color: #000;
+  font-weight: 500;
+  border-radius: 9999px;
+  transition: all 0.4s var(--ease-out-expo);
+}
+
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 40px rgba(201, 169, 98, 0.25);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.75);
+  border-radius: 9999px;
+  transition: all 0.4s var(--ease-out-expo);
+}
+
+.btn-secondary:hover {
+  border-color: rgba(201, 169, 98, 0.4);
+  color: var(--gold);
+  background: rgba(201, 169, 98, 0.05);
+}
+
+/* ── Section spacing ── */
+.section-padding {
+  padding-top: clamp(5rem, 12vw, 9rem);
+  padding-bottom: clamp(5rem, 12vw, 9rem);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .ken-burns {
+    animation: none;
+  }
+}
