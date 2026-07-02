@@ -41,7 +41,7 @@ export default function CTASection() {
               立即詢價
               <ArrowRight className="w-4 h-4" />
             </Link>
-            {SITE.lineUrl !== "#" ? (
+            {SITE.lineUrl ? (
               <Link href={SITE.lineUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary justify-center text-sm sm:text-base">
                 LINE 諮詢
               </Link>
