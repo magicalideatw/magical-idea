@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { SITE } from "@/lib/constants";
+import { SITE, isExternalLineUrl } from "@/lib/constants";
 
 function LineIcon() {
   return (
@@ -17,8 +17,8 @@ function LineIcon() {
 }
 
 export default function FloatingLineButton() {
-  const lineHref = SITE.lineUrl !== "#" ? SITE.lineUrl : "/contact";
-  const isExternal = SITE.lineUrl !== "#";
+  const isExternal = isExternalLineUrl(SITE.lineUrl);
+  const lineHref = isExternal ? SITE.lineUrl : "/contact";
 
   return (
     <Link

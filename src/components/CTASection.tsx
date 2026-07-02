@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
-import { SITE } from "@/lib/constants";
+import { SITE, isExternalLineUrl } from "@/lib/constants";
 
 export default function CTASection() {
   const ref = useRef<HTMLElement>(null);
@@ -41,7 +41,7 @@ export default function CTASection() {
               立即詢價
               <ArrowRight className="w-4 h-4" />
             </Link>
-            {SITE.lineUrl ? (
+            {isExternalLineUrl(SITE.lineUrl) ? (
               <Link href={SITE.lineUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary justify-center text-sm sm:text-base">
                 LINE 諮詢
               </Link>

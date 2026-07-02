@@ -9,6 +9,10 @@ export const SITE = {
   email: "（待更新）",
 } as const;
 
+export function isExternalLineUrl(url: string): boolean {
+  return url.startsWith("http");
+}
+
 export const EXPERIENCES = [
   {
     title: "FISM 世界魔術大賽台灣代表",
