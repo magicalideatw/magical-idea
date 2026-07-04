@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, FormEvent, ReactNode } from "react";
-import { motion } from "framer-motion";
+import { useState, FormEvent, ReactNode, useCallback } from "react";
 import { Send, Mail, MessageCircle, ChevronDown, Loader2 } from "lucide-react";
 import { SITE, SERVICES } from "@/lib/constants";
 import { BUDGET_OPTIONS } from "@/lib/inquiry";
+import Toast, { ToastType } from "./Toast";
 
 const labelClass = "block text-gold/70 text-xs tracking-[0.15em] uppercase mb-2";
 const inputClass =
@@ -79,105 +79,110 @@ function SelectField({
 }
 
 export default function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(
+    null,
+  );
+
+  const closeToast = useCallback(() => setToast(null), []);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
+    setToast(null);
     setLoading(true);
 
     const form = e.currentTarget;
     const formData = new FormData(form);
 
+    const payload = {
+      name: formData.get("name"),
+      phone: formData.get("phone"),
+      email: formData.get("email"),
+      date: formData.get("eventDate"),
+      location: formData.get("eventLocation"),
+      eventType: formData.get("eventType"),
+      budget: formData.get("budget"),
+      message: formData.get("notes") ?? "",
+    };
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.get("name"),
-          phone: formData.get("phone"),
-          email: formData.get("email"),
-          date: formData.get("eventDate"),
-          location: formData.get("eventLocation"),
-          eventType: formData.get("eventType"),
-          budget: formData.get("budget"),
-          message: formData.get("notes") ?? "",
-        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
-      const result = (await response.json()) as {
-        success?: boolean;
-      };
+      const result = (await response.json()) as { success?: boolean };
 
       if (!response.ok || !result.success) {
-        throw new Error("送出失敗，請稍後再試。");
+        throw new Error("failed");
       }
 
-      setSubmitted(true);
       form.reset();
+      setToast({
+        type: "success",
+        message: "詢價已送出！\n我們將於24小時內與您聯絡。",
+      });
     } catch {
-      setError("送出失敗，請稍後再試。");
+      setToast({
+        type: "error",
+        message: "送出失敗，請稍後再試。",
+      });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
-      <div className="lg:col-span-2 space-y-8">
-        <div>
-          <p className="text-gold text-xs tracking-[0.3em] uppercase mb-3 font-light">
-            Get In Touch
-          </p>
-          <h3 className="font-display text-2xl md:text-3xl text-white mb-4">
-            <span className="gold-gradient-text">聯絡方式</span>
-          </h3>
-          <p className="text-white/50 text-sm leading-relaxed">
-            歡迎填寫詢價表單或透過 LINE 與我們聯繫，
-            我們將在 24 小時內回覆您的需求。
-          </p>
-          <div className="mt-6 h-px w-12 shimmer-line" />
-        </div>
+    <>
+      <Toast
+        message={toast?.message ?? ""}
+        type={toast?.type ?? "success"}
+        visible={toast !== null}
+        onClose={closeToast}
+      />
 
-        <div className="space-y-4">
-          <div className="flex items-center gap-4 p-5 rounded-2xl bg-surface-elevated/40 border border-gold/10 hover:border-gold/25 transition-colors">
-            <div className="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center shrink-0">
-              <MessageCircle className="w-5 h-5 text-gold" />
-            </div>
-            <div>
-              <p className="text-gold/60 text-xs uppercase tracking-wider">LINE</p>
-              <p className="text-white/80 text-sm mt-0.5">{SITE.lineDisplay}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4 p-5 rounded-2xl bg-surface-elevated/40 border border-gold/10 hover:border-gold/25 transition-colors">
-            <div className="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center shrink-0">
-              <Mail className="w-5 h-5 text-gold" />
-            </div>
-            <div>
-              <p className="text-gold/60 text-xs uppercase tracking-wider">Email</p>
-              <p className="text-white/80 text-sm mt-0.5">{SITE.email}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="lg:col-span-3">
-        {submitted ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="p-12 md:p-16 rounded-2xl bg-surface-elevated/50 border border-gold/20 gold-glow text-center"
-          >
-            <div className="w-16 h-16 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center mx-auto mb-6">
-              <Send className="w-7 h-7 text-gold" />
-            </div>
-            <p className="font-display text-2xl md:text-3xl gold-gradient-text mb-4">
-              詢價已送出，我們會盡快與您聯絡。
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
+        <div className="lg:col-span-2 space-y-8">
+          <div>
+            <p className="text-gold text-xs tracking-[0.3em] uppercase mb-3 font-light">
+              Get In Touch
             </p>
-          </motion.div>
-        ) : (
+            <h3 className="font-display text-2xl md:text-3xl text-white mb-4">
+              <span className="gold-gradient-text">聯絡方式</span>
+            </h3>
+            <p className="text-white/50 text-sm leading-relaxed">
+              歡迎填寫詢價表單或透過 LINE 與我們聯繫，
+              我們將在 24 小時內回覆您的需求。
+            </p>
+            <div className="mt-6 h-px w-12 shimmer-line" />
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-center gap-4 p-5 rounded-2xl bg-surface-elevated/40 border border-gold/10 hover:border-gold/25 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center shrink-0">
+                <MessageCircle className="w-5 h-5 text-gold" />
+              </div>
+              <div>
+                <p className="text-gold/60 text-xs uppercase tracking-wider">LINE</p>
+                <p className="text-white/80 text-sm mt-0.5">{SITE.lineDisplay}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 p-5 rounded-2xl bg-surface-elevated/40 border border-gold/10 hover:border-gold/25 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center shrink-0">
+                <Mail className="w-5 h-5 text-gold" />
+              </div>
+              <div>
+                <p className="text-gold/60 text-xs uppercase tracking-wider">Email</p>
+                <p className="text-white/80 text-sm mt-0.5">{SITE.email}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="lg:col-span-3">
           <form
             onSubmit={handleSubmit}
             className="p-8 md:p-10 rounded-2xl bg-surface-elevated/40 border border-gold/10 gold-glow space-y-6"
@@ -188,12 +193,6 @@ export default function ContactForm() {
                 標示 <span className="text-gold">*</span> 為必填欄位
               </p>
             </div>
-
-            {error && (
-              <div className="px-4 py-3 rounded-xl border border-red-500/30 bg-red-500/10 text-red-300 text-sm">
-                {error}
-              </div>
-            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <Field label="姓名" htmlFor="name" required>
@@ -314,8 +313,8 @@ export default function ContactForm() {
               </button>
             </div>
           </form>
-        )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
