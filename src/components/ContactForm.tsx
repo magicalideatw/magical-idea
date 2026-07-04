@@ -170,15 +170,20 @@ export default function ContactForm() {
                 <p className="text-white/80 text-sm mt-0.5">{SITE.lineDisplay}</p>
               </div>
             </div>
-            <div className="flex items-center gap-4 p-5 rounded-2xl bg-surface-elevated/40 border border-gold/10 hover:border-gold/25 transition-colors">
+            <a
+              href={`mailto:${SITE.email}`}
+              className="flex items-center gap-4 p-5 rounded-2xl bg-surface-elevated/40 border border-gold/10 hover:border-gold/25 transition-colors"
+            >
               <div className="w-11 h-11 rounded-xl bg-gold/10 flex items-center justify-center shrink-0">
                 <Mail className="w-5 h-5 text-gold" />
               </div>
               <div>
                 <p className="text-gold/60 text-xs uppercase tracking-wider">Email</p>
-                <p className="text-white/80 text-sm mt-0.5">{SITE.email}</p>
+                <p className="text-white/80 text-sm mt-0.5 hover:text-gold transition-colors break-all">
+                  {SITE.email}
+                </p>
               </div>
-            </div>
+            </a>
           </div>
         </div>
 

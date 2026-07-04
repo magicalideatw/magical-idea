@@ -6,7 +6,7 @@ export const SITE = {
     "魔幻點子表演娛樂提供企業尾牙、春酒、家庭日、校園演出、婚宴及政府活動的專業魔術表演服務。",
   lineUrl: "https://line.me/R/ti/p/@hwg7469v",
   lineDisplay: "@hwg7469v",
-  email: "（待更新）",
+  email: "magicalideatw@gmail.com",
 } as const;
 
 export function isExternalLineUrl(url: string): boolean {
