@@ -92,34 +92,33 @@ export default function ContactForm() {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch("/api/inquiry", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.get("name"),
           phone: formData.get("phone"),
           email: formData.get("email"),
-          eventDate: formData.get("eventDate"),
-          eventLocation: formData.get("eventLocation"),
+          date: formData.get("eventDate"),
+          location: formData.get("eventLocation"),
           eventType: formData.get("eventType"),
           budget: formData.get("budget"),
-          notes: formData.get("notes") ?? "",
+          message: formData.get("notes") ?? "",
         }),
       });
 
       const result = (await response.json()) as {
         success?: boolean;
-        error?: string;
       };
 
       if (!response.ok || !result.success) {
-        throw new Error(result.error ?? "送出失敗，請稍後再試。");
+        throw new Error("送出失敗，請稍後再試。");
       }
 
       setSubmitted(true);
       form.reset();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "送出失敗，請稍後再試。");
+    } catch {
+      setError("送出失敗，請稍後再試。");
     } finally {
       setLoading(false);
     }
@@ -175,10 +174,7 @@ export default function ContactForm() {
               <Send className="w-7 h-7 text-gold" />
             </div>
             <p className="font-display text-2xl md:text-3xl gold-gradient-text mb-4">
-              感謝您的詢價！
-            </p>
-            <p className="text-white/50 text-sm leading-relaxed">
-              我們已收到您的訊息，將盡快與您聯繫。
+              詢價已送出，我們會盡快與您聯絡。
             </p>
           </motion.div>
         ) : (

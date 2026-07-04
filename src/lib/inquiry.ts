@@ -85,3 +85,22 @@ export function parseInquiryForm(body: unknown): InquiryPayload {
     budgetLabel: BUDGET_LABELS[budget],
   };
 }
+
+export function parseContactForm(body: unknown): InquiryPayload {
+  if (!body || typeof body !== "object") {
+    throw new Error("無效的表單資料");
+  }
+
+  const data = body as Record<string, unknown>;
+
+  return parseInquiryForm({
+    name: data.name,
+    phone: data.phone,
+    email: data.email,
+    eventDate: data.date,
+    eventLocation: data.location,
+    eventType: data.eventType,
+    budget: data.budget,
+    notes: data.message ?? "",
+  });
+}
