@@ -114,16 +114,26 @@ export default function ContactForm() {
         body: JSON.stringify(payload),
       });
 
-      const result = (await response.json()) as { success?: boolean };
+      let result: { success?: boolean; error?: string } = {};
 
-      if (!response.ok || !result.success) {
-        throw new Error("failed");
+      try {
+        result = (await response.json()) as { success?: boolean; error?: string };
+      } catch {
+        result = {};
       }
 
-      form.reset();
+      if (response.ok && result.success === true) {
+        form.reset();
+        setToast({
+          type: "success",
+          message: "詢價已送出，我們會盡快與您聯絡。",
+        });
+        return;
+      }
+
       setToast({
-        type: "success",
-        message: "詢價已送出！\n我們將於24小時內與您聯絡。",
+        type: "error",
+        message: result.error ?? "送出失敗，請稍後再試。",
       });
     } catch {
       setToast({
