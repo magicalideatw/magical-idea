@@ -128,11 +128,10 @@ export const CLIENT_CASES = [
 export const VIDEOS = [
   {
     id: "1",
-    title: "舞台大型魔術精選",
+    title: "舞台魔術表演現場",
     description: "企業尾牙開場演出精彩片段",
-    thumbnail:
-      "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80",
-    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    thumbnail: "https://img.youtube.com/vi/felxWVNDYMM/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/felxWVNDYMM",
   },
   {
     id: "2",
