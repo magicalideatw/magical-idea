@@ -1,10 +1,20 @@
 "use client";
 
-import { useState, FormEvent, ReactNode, useCallback } from "react";
+import {
+  useState,
+  FormEvent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { Send, Mail, MessageCircle, ChevronDown, Loader2 } from "lucide-react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { SITE, SERVICES } from "@/lib/constants";
 import { BUDGET_OPTIONS } from "@/lib/inquiry";
 import Toast, { ToastType } from "./Toast";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const labelClass = "block text-gold/70 text-xs tracking-[0.15em] uppercase mb-2";
 const inputClass =
@@ -80,15 +90,32 @@ function SelectField({
 
 export default function ContactForm() {
   const [loading, setLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
   const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(
     null,
   );
+
+  const formLoadedAtRef = useRef(Date.now());
+  const turnstileRef = useRef<TurnstileInstance>(null);
+
+  useEffect(() => {
+    formLoadedAtRef.current = Date.now();
+  }, []);
 
   const closeToast = useCallback(() => setToast(null), []);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setToast(null);
+
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setToast({
+        type: "error",
+        message: "送出失敗，請稍後再試。",
+      });
+      return;
+    }
+
     setLoading(true);
 
     const form = e.currentTarget;
@@ -103,6 +130,9 @@ export default function ContactForm() {
       eventType: formData.get("eventType"),
       budget: formData.get("budget"),
       message: formData.get("notes") ?? "",
+      website: formData.get("website") ?? "",
+      _formLoadedAt: formLoadedAtRef.current,
+      turnstileToken: turnstileToken || undefined,
     };
 
     try {
@@ -124,6 +154,9 @@ export default function ContactForm() {
 
       if (response.ok && result.success === true) {
         form.reset();
+        setTurnstileToken("");
+        turnstileRef.current?.reset();
+        formLoadedAtRef.current = Date.now();
         setToast({
           type: "success",
           message: "詢價已送出，我們會盡快與您聯絡。",
@@ -135,11 +168,15 @@ export default function ContactForm() {
         type: "error",
         message: result.error ?? "送出失敗，請稍後再試。",
       });
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     } catch {
       setToast({
         type: "error",
         message: "送出失敗，請稍後再試。",
       });
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     } finally {
       setLoading(false);
     }
@@ -200,8 +237,23 @@ export default function ContactForm() {
         <div className="lg:col-span-3">
           <form
             onSubmit={handleSubmit}
-            className="p-8 md:p-10 rounded-2xl bg-surface-elevated/40 border border-gold/10 gold-glow space-y-6"
+            className="relative p-8 md:p-10 rounded-2xl bg-surface-elevated/40 border border-gold/10 gold-glow space-y-6"
           >
+            <div
+              aria-hidden="true"
+              className="absolute -left-[9999px] h-px w-px overflow-hidden opacity-0"
+            >
+              <label htmlFor="website">Website</label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                defaultValue=""
+              />
+            </div>
+
             <div className="pb-2 border-b border-gold/10 mb-2">
               <p className="font-display text-lg text-white/90">詢價表單</p>
               <p className="text-white/40 text-xs mt-1">
@@ -255,6 +307,7 @@ export default function ContactForm() {
                   name="eventDate"
                   required
                   disabled={loading}
+                  min={new Date().toISOString().split("T")[0]}
                   className={`${inputClass} [color-scheme:dark]`}
                 />
               </Field>
@@ -307,6 +360,19 @@ export default function ContactForm() {
                 placeholder="請描述預估人數、活動流程或其他特殊需求..."
               />
             </Field>
+
+            {TURNSTILE_SITE_KEY ? (
+              <div className="flex justify-start">
+                <Turnstile
+                  ref={turnstileRef}
+                  siteKey={TURNSTILE_SITE_KEY}
+                  onSuccess={setTurnstileToken}
+                  onExpire={() => setTurnstileToken("")}
+                  onError={() => setTurnstileToken("")}
+                  options={{ theme: "dark", size: "normal" }}
+                />
+              </div>
+            ) : null}
 
             <div className="pt-2">
               <button

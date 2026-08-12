@@ -125,39 +125,79 @@ export const CLIENT_CASES = [
   },
 ] as const;
 
+export const HOME_SERVICES = [
+  {
+    id: "stage",
+    title: "舞台魔術",
+    suitable: "尾牙、企業活動、晚會、舞台活動",
+    icon: "sparkles",
+  },
+  {
+    id: "close-up",
+    title: "近距離魔術",
+    suitable: "餐會、婚禮、雞尾酒會、品牌活動",
+    icon: "wand",
+  },
+  {
+    id: "family",
+    title: "親子魔術",
+    suitable: "親子活動、家庭日、商場、社區活動",
+    icon: "users",
+  },
+  {
+    id: "custom",
+    title: "客製演出",
+    suitable: "依照活動需求，規劃專屬魔術演出。",
+    icon: "star",
+  },
+] as const;
+
+export const TRUST_HIGHLIGHTS = [
+  { value: "20+", label: "近 20 年魔術經驗" },
+  { value: "FISM", label: "世界魔術大賽台灣代表" },
+  { value: "Magic Castle", label: "Magic Castle 特別獎" },
+  { value: "國際", label: "魔術競賽得獎" },
+] as const;
+
 export const VIDEOS = [
   {
     id: "1",
+    sortOrder: 1,
     title: "舞台魔術表演現場",
     description: "企業尾牙開場演出精彩片段",
-    thumbnail: "https://img.youtube.com/vi/felxWVNDYMM/hqdefault.jpg",
-    embedUrl: "https://www.youtube.com/embed/felxWVNDYMM",
+    youtubeId: "felxWVNDYMM",
   },
   {
     id: "2",
-    title: "沿桌魔術互動秀",
-    description: "婚宴與餐會近距離魔術體驗",
-    thumbnail:
-      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80",
-    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    sortOrder: 2,
+    title: "魔術演出｜現場實錄",
+    youtubeId: "DwYyxXaOCMc",
   },
   {
     id: "3",
-    title: "校園魔術專場",
-    description: "教育結合娛樂的校園演出",
-    thumbnail:
-      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80",
-    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    sortOrder: 3,
+    title: "魔術演出｜精彩片段",
+    youtubeId: "0fZkVRvC2E8",
   },
   {
     id: "4",
-    title: "FISM 世界魔術大賽",
-    description: "國際賽事參賽精彩回顧",
-    thumbnail:
-      "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80",
-    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    sortOrder: 4,
+    title: "舞台魔術｜演出實錄",
+    youtubeId: "ykNgfbR6Ths",
   },
 ] as const;
+
+export function getYoutubeEmbedUrl(youtubeId: string) {
+  return `https://www.youtube.com/embed/${youtubeId}`;
+}
+
+export function getYoutubeThumbnail(youtubeId: string) {
+  return `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+}
+
+export function getFeaturedVideo() {
+  return [...VIDEOS].sort((a, b) => a.sortOrder - b.sortOrder)[0];
+}
 
 export const GALLERY_IMAGES = [
   {

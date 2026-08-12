@@ -1,4 +1,13 @@
 import { SERVICES } from "./constants";
+import {
+  SpamRejectedError,
+  validateEmailFormat,
+  validateEventDate,
+  validateLocationContent,
+  validateNameContent,
+  validateNotesContent,
+  validatePhoneFormat,
+} from "./spam-guard";
 
 export const BUDGET_LABELS: Record<string, string> = {
   "under-30k": "3 萬元以下",
@@ -42,9 +51,13 @@ function clean(value: unknown, maxLength = 500): string {
   return value.trim().slice(0, maxLength);
 }
 
+function reject(reason: string): never {
+  throw new SpamRejectedError(reason);
+}
+
 export function parseInquiryForm(body: unknown): InquiryPayload {
   if (!body || typeof body !== "object") {
-    throw new Error("無效的表單資料");
+    reject("invalid-body");
   }
 
   const data = body as Record<string, unknown>;
@@ -58,19 +71,30 @@ export function parseInquiryForm(body: unknown): InquiryPayload {
   const budget = clean(data.budget, 50);
   const notes = clean(data.notes, 2000);
 
-  if (!name) throw new Error("請填寫姓名");
-  if (!phone) throw new Error("請填寫電話");
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    throw new Error("請填寫有效的 Email");
-  }
-  if (!eventDate) throw new Error("請選擇活動日期");
-  if (!eventLocation) throw new Error("請填寫活動地點");
+  if (!name) reject("missing-name");
+  if (!validateNameContent(name)) reject("invalid-name");
+
+  if (!phone) reject("missing-phone");
+  if (!validatePhoneFormat(phone)) reject("invalid-phone");
+
+  if (!email) reject("missing-email");
+  if (!validateEmailFormat(email)) reject("invalid-email");
+
+  if (!eventDate) reject("missing-date");
+  if (!validateEventDate(eventDate)) reject("invalid-date");
+
+  if (!eventLocation) reject("missing-location");
+  if (!validateLocationContent(eventLocation)) reject("invalid-location");
+
   if (!eventType || !EVENT_TYPE_LABELS[eventType]) {
-    throw new Error("請選擇有效的活動類型");
+    reject("invalid-event-type");
   }
+
   if (!budget || !BUDGET_LABELS[budget]) {
-    throw new Error("請選擇有效的預算範圍");
+    reject("invalid-budget");
   }
+
+  if (!validateNotesContent(notes)) reject("invalid-notes");
 
   return {
     name,
@@ -88,7 +112,7 @@ export function parseInquiryForm(body: unknown): InquiryPayload {
 
 export function parseContactForm(body: unknown): InquiryPayload {
   if (!body || typeof body !== "object") {
-    throw new Error("無效的表單資料");
+    reject("invalid-body");
   }
 
   const data = body as Record<string, unknown>;
