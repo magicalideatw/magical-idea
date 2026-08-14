@@ -198,6 +198,40 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
+@keyframes hero-ken-burns {
+  0%,
+  100% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.06) translate3d(-1.5%, -1%, 0);
+  }
+}
+
+.hero-ken-burns {
+  transform-origin: center center;
+  will-change: transform;
+  animation: hero-ken-burns 18s ease-in-out infinite;
+}
+
+.hero-parallax-layer {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ken-burns {
+    animation: none;
+    will-change: auto;
+  }
+
+  .hero-parallax-layer {
+    transform: none !important;
+    transition: none;
+    will-change: auto;
+  }
+}
+
 @keyframes pulse-gold {
   0%,
   100% {
