@@ -22,7 +22,7 @@ export const BUDGET_OPTIONS = [
 ] as const;
 
 export const BUDGET_FIELD_HINT =
-  "本公司演出費用 NT$10,000 起，實際費用依演出形式與活動需求報價。";
+  "本公司近距離魔術 NT$10,000 起；舞台魔術約 15 分鐘 NT$15,000 起、20–30 分鐘 NT$20,000 起，實際費用依演出形式與活動需求報價。";
 
 const EVENT_TYPE_LABELS: Record<string, string> = {
   ...Object.fromEntries(SERVICES.map((s) => [s.id, s.title])),

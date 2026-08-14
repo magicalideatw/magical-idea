@@ -155,14 +155,39 @@ export const HOME_SERVICES = [
 export const PRICING = {
   headline: "專業魔術演出｜NT$10,000 起",
   description:
-    "實際費用將依演出形式、活動時間、地點、演出人數與活動需求而定。",
+    "實際費用將依活動日期、地點、演出時間、演出形式、活動規模及製作需求評估。",
   tiers: [
-    { title: "舞台魔術", price: "NT$15,000 起" },
     { title: "近距離魔術", price: "NT$10,000 起" },
-    { title: "企業／大型活動", price: "依活動規模與需求報價" },
-    { title: "客製化演出", price: "依需求報價" },
+    { title: "舞台魔術｜約 15 分鐘", price: "NT$15,000 起" },
+    { title: "舞台魔術｜約 20–30 分鐘", price: "NT$20,000 起" },
+    {
+      title: "企業／大型活動",
+      price: "依活動規模、演出時間與製作需求報價",
+    },
+    { title: "客製化演出", price: "依演出內容與製作需求報價" },
   ],
 } as const;
+
+export const STAGE_MAGIC_TIERS = [
+  {
+    title: "舞台魔術｜約 15 分鐘",
+    price: "NT$15,000 起",
+    description:
+      "適合活動流程較緊湊、需要精簡節目的場合，如節目串場或時間有限的活動段落。",
+  },
+  {
+    title: "舞台魔術｜約 20–30 分鐘",
+    price: "NT$20,000 起",
+    description:
+      "適合尾牙、春酒、企業晚會等需要完整舞台演出的場合，可安排較完整的魔術節目內容。",
+  },
+] as const;
+
+export const FAQ_STAGE_MAGIC_PRICE =
+  "舞台魔術約 15 分鐘 NT$15,000 起；約 20–30 分鐘 NT$20,000 起。實際費用依活動日期、地點、演出內容及製作需求評估。";
+
+export const FAQ_MINIMUM_PRICE =
+  "目前近距離魔術 NT$10,000 起；舞台魔術約 15 分鐘 NT$15,000 起，約 20–30 分鐘 NT$20,000 起。";
 
 export const TRUST_HIGHLIGHTS = [
   { value: "20+", label: "近 20 年魔術經驗" },

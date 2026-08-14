@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { NAV_LINKS, SITE } from "@/lib/constants";
+import { SEO_NAV_LINKS } from "@/lib/seo";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -80,6 +81,20 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            {SEO_NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative px-3 py-2 text-[12px] font-en tracking-wide transition-colors duration-500 ${
+                    isActive ? "text-gold" : "text-white/40 hover:text-white/80"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
             <Link
               href="/contact"
               className="ml-5 px-5 py-2 text-[13px] font-en tracking-wide text-gold border border-gold/25 rounded-full hover:bg-gold/10 hover:border-gold/40 transition-all duration-500"
@@ -128,6 +143,30 @@ export default function Navbar() {
                       href={link.href}
                       className={`block py-4 font-display text-2xl sm:text-3xl border-b border-white/[0.06] transition-colors ${
                         isActive ? "text-gold" : "text-white/70"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+              {SEO_NAV_LINKS.map((link, i) => {
+                const isActive = pathname === link.href;
+                return (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      delay: (NAV_LINKS.length + i) * 0.06,
+                      duration: 0.5,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  >
+                    <Link
+                      href={link.href}
+                      className={`block py-3 font-display text-lg sm:text-xl border-b border-white/[0.04] transition-colors ${
+                        isActive ? "text-gold" : "text-white/50"
                       }`}
                     >
                       {link.label}

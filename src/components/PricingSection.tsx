@@ -27,7 +27,7 @@ export default function PricingSection() {
           </p>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px max-w-5xl mx-auto rounded-xl overflow-hidden border border-gold/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px max-w-4xl mx-auto rounded-xl overflow-hidden border border-gold/10">
           {PRICING.tiers.map((tier, index) => (
             <motion.div
               key={tier.title}
@@ -37,10 +37,10 @@ export default function PricingSection() {
               transition={{ duration: 0.7, delay: index * 0.08, ease: EASE }}
               className="px-5 sm:px-6 py-8 sm:py-10 bg-black/30 text-center"
             >
-              <h3 className="font-display text-base sm:text-lg text-white/85 tracking-premium mb-3">
+              <h3 className="font-display text-base sm:text-lg text-white/85 tracking-premium mb-3 leading-snug">
                 {tier.title}
               </h3>
-              <p className="text-gold/75 text-sm sm:text-base font-light">
+              <p className="text-gold/75 text-base sm:text-lg font-light whitespace-nowrap">
                 {tier.price}
               </p>
             </motion.div>
@@ -50,10 +50,10 @@ export default function PricingSection() {
         <AnimatedSection delay={0.15}>
           <div className="mt-10 sm:mt-12 text-center">
             <Link
-              href="/contact"
+              href="/pricing"
               className="btn-primary justify-center text-sm sm:text-base mx-auto"
             >
-              立即詢問演出
+              查看演出費用
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

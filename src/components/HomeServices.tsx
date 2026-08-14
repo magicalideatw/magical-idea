@@ -53,12 +53,20 @@ export default function HomeServices() {
                   {service.suitable}
                 </p>
                 {service.id === "stage" && (
-                  <Link
-                    href="/year-end-party"
-                    className="inline-block mt-4 text-gold/60 text-xs hover:text-gold transition-colors"
-                  >
-                    尾牙・春酒方案 →
-                  </Link>
+                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+                    <Link
+                      href="/services/stage-magic"
+                      className="text-gold/60 text-xs hover:text-gold transition-colors"
+                    >
+                      舞台魔術表演 →
+                    </Link>
+                    <Link
+                      href="/events/annual-dinner"
+                      className="text-gold/60 text-xs hover:text-gold transition-colors"
+                    >
+                      尾牙魔術表演 →
+                    </Link>
+                  </div>
                 )}
               </motion.article>
             );

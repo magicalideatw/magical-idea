@@ -14,7 +14,10 @@ import {
 import {
   VIDEOS,
   getYoutubeEmbedUrl,
+  FAQ_STAGE_MAGIC_PRICE,
+  PRICING,
 } from "@/lib/constants";
+import { PRICING_DISCLAIMER } from "@/lib/seo";
 
 const PAGE_PATH = "/year-end-party";
 const PAGE_URL = `${SITE_URL}${PAGE_PATH}`;
@@ -66,14 +69,24 @@ const whyPoints = [
 const serviceTypes = [
   {
     icon: Sparkles,
-    title: "舞台魔術",
-    duration: "約 20～30 分鐘",
-    description: "完整舞台魔術演出，視覺效果集中，適合作為尾牙主秀或重點節目。",
+    title: "舞台魔術｜約 15 分鐘",
+    duration: "NT$15,000 起",
+    description:
+      "適合流程較緊湊的尾牙、節目串場或需要精簡演出的活動。",
+    suitable: ["節目串場", "流程緊湊的尾牙", "時段有限的晚會"],
+  },
+  {
+    icon: Sparkles,
+    title: "舞台魔術｜約 20–30 分鐘",
+    duration: "NT$20,000 起",
+    description:
+      "完整舞台魔術演出，視覺效果集中，適合作為尾牙主秀或重點節目。",
     suitable: ["尾牙主秀", "春酒", "企業晚會", "年終聚餐"],
   },
   {
     icon: Wand2,
     title: "近距離互動魔術",
+    duration: "NT$10,000 起",
     description:
       "於賓客席間或活動區域近距離演出，適合穿插在正式流程之間。",
     suitable: [
@@ -127,13 +140,12 @@ const prepQuestions = [
 const faqItems = [
   {
     question: "尾牙魔術表演費用是多少？",
-    answer:
-      "舞台魔術 20～30 分鐘，NT$20,000 起；實際費用依活動地點、演出形式、時間與客製化需求評估。",
+    answer: `${FAQ_STAGE_MAGIC_PRICE} 近距離魔術 NT$10,000 起。`,
   },
   {
     question: "尾牙可以安排多久的魔術？",
     answer:
-      "目前以約 20～30 分鐘舞台魔術演出為主要方案，實際內容可依活動流程討論。",
+      "舞台魔術可依活動流程安排約 15 分鐘或 20–30 分鐘方案，互動魔術則可穿插於入場或用餐時段。實際內容依活動流程討論。",
   },
   {
     question: "桃園以外可以演出嗎？",
@@ -313,7 +325,7 @@ export default function YearEndPartyPage() {
           <AnimatedSection>
             <SectionHeading title="尾牙可以安排哪些魔術演出？" />
           </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {serviceTypes.map((service, index) => {
               const Icon = service.icon;
               return (
@@ -366,21 +378,38 @@ export default function YearEndPartyPage() {
       <section className="section-padding bg-surface">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
           <AnimatedSection>
-            <SectionHeading align="left" title="演出費用" />
+            <SectionHeading
+              align="left"
+              title="演出費用"
+              description={PRICING.headline}
+            />
           </AnimatedSection>
-          <AnimatedSection delay={0.08}>
-            <div className="max-w-xl p-6 sm:p-8 rounded-xl border border-gold/10 bg-surface-elevated/20">
-              <h3 className="font-display text-xl sm:text-2xl text-white/90 mb-2">
-                舞台魔術
-              </h3>
-              <p className="text-white/45 text-sm mb-4">20～30 分鐘</p>
-              <p className="font-display text-2xl sm:text-3xl gold-gradient-text mb-4">
-                NT$20,000 起
-              </p>
-              <p className="text-white/40 text-sm leading-relaxed">
-                實際費用將依活動地點、演出形式、時間與客製化需求評估。
-              </p>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl">
+            {PRICING.tiers.map((tier, index) => (
+              <AnimatedSection key={tier.title} delay={index * 0.06}>
+                <div className="p-6 sm:p-8 rounded-xl border border-gold/10 bg-surface-elevated/20 h-full">
+                  <h3 className="font-display text-base sm:text-lg text-white/90 mb-3 tracking-premium leading-snug">
+                    {tier.title}
+                  </h3>
+                  <p className="font-display text-xl sm:text-2xl gold-gradient-text whitespace-nowrap">
+                    {tier.price}
+                  </p>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+          <AnimatedSection delay={0.1}>
+            <p className="mt-6 max-w-3xl text-white/40 text-sm leading-relaxed">
+              {PRICING_DISCLAIMER}
+            </p>
+            <p className="mt-4">
+              <Link
+                href="/pricing"
+                className="text-gold/70 text-sm hover:text-gold transition-colors"
+              >
+                查看完整魔術表演費用 →
+              </Link>
+            </p>
           </AnimatedSection>
         </div>
       </section>
