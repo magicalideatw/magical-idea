@@ -40,7 +40,7 @@ export function buildAdminInquiryEmail(data: InquiryPayload): {
     "活動類型：",
     data.eventTypeLabel,
     "",
-    "預算範圍：",
+    "預計演出預算：",
     data.budgetLabel,
     "",
     "備註：",
@@ -71,7 +71,7 @@ export function buildAdminInquiryEmail(data: InquiryPayload): {
                 ${row("活動日期", data.eventDate)}
                 ${row("活動地點", data.eventLocation)}
                 ${row("活動類型", data.eventTypeLabel)}
-                ${row("預算範圍", data.budgetLabel)}
+                ${row("預計演出預算", data.budgetLabel)}
                 ${row("備註", data.notes || "（無）")}
               </table>
             </td>

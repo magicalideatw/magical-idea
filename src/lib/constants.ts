@@ -152,6 +152,18 @@ export const HOME_SERVICES = [
   },
 ] as const;
 
+export const PRICING = {
+  headline: "專業魔術演出｜NT$10,000 起",
+  description:
+    "實際費用將依演出形式、活動時間、地點、演出人數與活動需求而定。",
+  tiers: [
+    { title: "舞台魔術", price: "NT$15,000 起" },
+    { title: "近距離魔術", price: "NT$10,000 起" },
+    { title: "企業／大型活動", price: "依活動規模與需求報價" },
+    { title: "客製化演出", price: "依需求報價" },
+  ],
+} as const;
+
 export const TRUST_HIGHLIGHTS = [
   { value: "20+", label: "近 20 年魔術經驗" },
   { value: "FISM", label: "世界魔術大賽台灣代表" },

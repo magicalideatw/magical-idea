@@ -147,6 +147,15 @@ export default function ServicesPage() {
                     <p className="text-gold/80 text-sm">
                       適合場景：{details.ideal}
                     </p>
+                    {service.id === "corporate" && (
+                      <Link
+                        href="/year-end-party"
+                        className="inline-flex items-center gap-2 mt-6 text-gold/70 text-sm hover:text-gold transition-colors"
+                      >
+                        了解尾牙魔術表演方案
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    )}
                   </div>
 
                   <div

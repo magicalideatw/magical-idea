@@ -11,7 +11,7 @@ import {
 import { Send, Mail, MessageCircle, ChevronDown, Loader2 } from "lucide-react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { SITE, SERVICES } from "@/lib/constants";
-import { BUDGET_OPTIONS } from "@/lib/inquiry";
+import { BUDGET_OPTIONS, BUDGET_FIELD_HINT } from "@/lib/inquiry";
 import Toast, { ToastType } from "./Toast";
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
@@ -53,6 +53,7 @@ function SelectField({
   placeholder,
   options,
   disabled,
+  hint,
 }: {
   id: string;
   name: string;
@@ -61,9 +62,15 @@ function SelectField({
   placeholder: string;
   options: readonly { value: string; label: string }[];
   disabled?: boolean;
+  hint?: string;
 }) {
   return (
     <Field label={label} htmlFor={id} required={required}>
+      {hint ? (
+        <p className="text-white/35 text-xs leading-relaxed mb-3 -mt-1">
+          {hint}
+        </p>
+      ) : null}
       <div className={selectWrapperClass}>
         <select
           id={id}
@@ -342,10 +349,11 @@ export default function ContactForm() {
               <SelectField
                 id="budget"
                 name="budget"
-                label="預算範圍"
+                label="預計演出預算"
                 required
                 disabled={loading}
-                placeholder="請選擇預算範圍"
+                placeholder="請選擇預計演出預算"
+                hint={BUDGET_FIELD_HINT}
                 options={BUDGET_OPTIONS}
               />
             </div>

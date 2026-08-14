@@ -2,6 +2,7 @@
 
 import { Sparkles, Wand2, Users, Star } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { HOME_SERVICES } from "@/lib/constants";
 import AnimatedSection from "./AnimatedSection";
 import SectionHeading from "./SectionHeading";
@@ -51,6 +52,14 @@ export default function HomeServices() {
                 <p className="text-white/45 text-sm leading-relaxed">
                   {service.suitable}
                 </p>
+                {service.id === "stage" && (
+                  <Link
+                    href="/year-end-party"
+                    className="inline-block mt-4 text-gold/60 text-xs hover:text-gold transition-colors"
+                  >
+                    尾牙・春酒方案 →
+                  </Link>
+                )}
               </motion.article>
             );
           })}

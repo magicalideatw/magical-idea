@@ -10,20 +10,19 @@ import {
 } from "./spam-guard";
 
 export const BUDGET_LABELS: Record<string, string> = {
-  "under-30k": "3 萬元以下",
-  "30k-50k": "3 萬 – 5 萬元",
-  "50k-100k": "5 萬 – 10 萬元",
-  "over-100k": "10 萬元以上",
-  undecided: "尚未確定",
+  "10k-30k": "NT$10,000～30,000",
+  "30k-50k": "NT$30,000～50,000",
+  "50k-plus": "NT$50,000 以上",
 };
 
 export const BUDGET_OPTIONS = [
-  { value: "under-30k", label: BUDGET_LABELS["under-30k"] },
+  { value: "10k-30k", label: BUDGET_LABELS["10k-30k"] },
   { value: "30k-50k", label: BUDGET_LABELS["30k-50k"] },
-  { value: "50k-100k", label: BUDGET_LABELS["50k-100k"] },
-  { value: "over-100k", label: BUDGET_LABELS["over-100k"] },
-  { value: "undecided", label: BUDGET_LABELS.undecided },
+  { value: "50k-plus", label: BUDGET_LABELS["50k-plus"] },
 ] as const;
+
+export const BUDGET_FIELD_HINT =
+  "本公司演出費用 NT$10,000 起，實際費用依演出形式與活動需求報價。";
 
 const EVENT_TYPE_LABELS: Record<string, string> = {
   ...Object.fromEntries(SERVICES.map((s) => [s.id, s.title])),
