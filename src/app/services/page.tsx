@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Sparkles,
@@ -89,6 +90,78 @@ const serviceDetails: Record<
   },
 };
 
+const SERVICE_IMAGES: Record<string, { src: string; alt: string }> = {
+  stage: {
+    src: "/images/stage-show.jpg",
+    alt: "魔幻點子表演娛樂舞台魔術秀演出",
+  },
+  corporate: {
+    src: "/images/year-end-party-magic.png",
+    alt: "尾牙春酒魔術表演｜魔幻點子表演娛樂",
+  },
+  family: {
+    src: "/images/corporate-family-day-magic.png",
+    alt: "企業家庭日魔術表演｜魔幻點子表演娛樂",
+  },
+  campus: {
+    src: "/images/school-event.jpg",
+    alt: "魔幻點子表演娛樂校園魔術活動",
+  },
+  wedding: {
+    src: "/images/wedding-magic.jpg",
+    alt: "魔幻點子表演娛樂婚禮魔術演出",
+  },
+  table: {
+    src: "/images/close-up-magic.jpg",
+    alt: "魔幻點子表演娛樂沿桌魔術演出",
+  },
+};
+
+function hasServiceImage(serviceId: string) {
+  return serviceId in SERVICE_IMAGES;
+}
+
+function ServiceVisual({
+  serviceId,
+  icon: Icon,
+  isEven,
+}: {
+  serviceId: string;
+  icon: typeof Sparkles;
+  isEven: boolean;
+}) {
+  const image = SERVICE_IMAGES[serviceId];
+
+  return (
+    <div
+      className={`relative overflow-hidden rounded-2xl gold-border ${
+        !isEven ? "lg:order-1" : ""
+      } ${
+        image
+          ? "order-1 aspect-[16/10] max-h-[260px] sm:max-h-[300px] lg:max-h-none lg:aspect-[4/3]"
+          : "aspect-[4/3]"
+      }`}
+    >
+      {image ? (
+        <div className="group relative h-full w-full">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            loading="lazy"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+        </div>
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-gold/10 via-surface-elevated to-surface flex items-center justify-center">
+          <Icon className="w-24 h-24 text-gold/20" />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ServicesPage() {
   return (
     <>
@@ -110,6 +183,7 @@ export default function ServicesPage() {
             const Icon = iconMap[service.icon];
             const details = serviceDetails[service.id];
             const isEven = index % 2 === 0;
+            const mobileImageFirst = hasServiceImage(service.id);
 
             return (
               <AnimatedSection key={service.id} delay={0.1}>
@@ -118,7 +192,11 @@ export default function ServicesPage() {
                     !isEven ? "lg:direction-rtl" : ""
                   }`}
                 >
-                  <div className={!isEven ? "lg:order-2" : ""}>
+                  <div
+                    className={`${!isEven ? "lg:order-2" : ""} ${
+                      mobileImageFirst ? "order-2" : ""
+                    }`}
+                  >
                     <div className="inline-flex items-center gap-3 mb-6">
                       <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center">
                         <Icon className="w-7 h-7 text-gold" />
@@ -158,15 +236,11 @@ export default function ServicesPage() {
                     )}
                   </div>
 
-                  <div
-                    className={`relative aspect-[4/3] rounded-2xl overflow-hidden gold-border ${
-                      !isEven ? "lg:order-1" : ""
-                    }`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-gold/10 via-surface-elevated to-surface flex items-center justify-center">
-                      <Icon className="w-24 h-24 text-gold/20" />
-                    </div>
-                  </div>
+                  <ServiceVisual
+                    serviceId={service.id}
+                    icon={Icon}
+                    isEven={isEven}
+                  />
                 </div>
 
                 {index < SERVICES.length - 1 && (
