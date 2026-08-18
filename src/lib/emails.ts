@@ -40,7 +40,10 @@ export function buildAdminInquiryEmail(data: InquiryPayload): {
     "活動類型：",
     data.eventTypeLabel,
     "",
-    "預計演出預算：",
+    "服務需求：",
+    data.servicesLabel,
+    "",
+    "預算範圍：",
     data.budgetLabel,
     "",
     "備註：",
@@ -59,7 +62,7 @@ export function buildAdminInquiryEmail(data: InquiryPayload): {
           <tr>
             <td style="padding:32px 32px 24px;background:linear-gradient(135deg,#0a0a0a 0%,#141414 100%);border-bottom:1px solid rgba(201,169,98,0.25);">
               <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.35em;color:rgba(201,169,98,0.6);text-transform:uppercase;">Magical Idea Entertainment</p>
-              <h1 style="margin:0;font-size:24px;font-weight:500;color:#c9a962;letter-spacing:0.05em;">收到新的演出詢價</h1>
+              <h1 style="margin:0;font-size:24px;font-weight:500;color:#c9a962;letter-spacing:0.05em;">收到新的活動詢價</h1>
             </td>
           </tr>
           <tr>
@@ -71,7 +74,8 @@ export function buildAdminInquiryEmail(data: InquiryPayload): {
                 ${row("活動日期", data.eventDate)}
                 ${row("活動地點", data.eventLocation)}
                 ${row("活動類型", data.eventTypeLabel)}
-                ${row("預計演出預算", data.budgetLabel)}
+                ${row("服務需求", data.servicesLabel)}
+                ${row("預算範圍", data.budgetLabel)}
                 ${row("備註", data.notes || "（無）")}
               </table>
             </td>
@@ -89,7 +93,7 @@ export function buildAdminInquiryEmail(data: InquiryPayload): {
 </html>`;
 
   return {
-    subject: "【魔幻點子表演娛樂】收到新的演出詢價",
+    subject: "【魔幻點子表演娛樂】收到新的活動詢價",
     html,
     text,
   };

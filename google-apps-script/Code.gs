@@ -34,10 +34,11 @@ function setupSheet() {
       "活動日期",
       "活動地點",
       "活動類型",
+      "服務需求",
       "預算範圍",
       "備註",
     ]);
-    sheet.getRange(1, 1, 1, 9).setFontWeight("bold");
+    sheet.getRange(1, 1, 1, 10).setFontWeight("bold");
     sheet.setFrozenRows(1);
   }
 }
@@ -70,6 +71,7 @@ function doPost(e) {
       data.eventDate || "",
       data.eventLocation || "",
       data.eventTypeLabel || data.eventType || "",
+      data.servicesLabel || (data.services || []).join("、") || "",
       data.budgetLabel || data.budget || "",
       data.notes || "",
     ]);
@@ -97,6 +99,9 @@ function doPost(e) {
       "\n" +
       "活動類型： " +
       (data.eventTypeLabel || data.eventType || "") +
+      "\n" +
+      "服務需求： " +
+      (data.servicesLabel || (data.services || []).join("、") || "") +
       "\n" +
       "預算範圍： " +
       (data.budgetLabel || data.budget || "") +

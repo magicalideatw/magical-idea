@@ -5,7 +5,9 @@ import AnimatedSection from "@/components/AnimatedSection";
 type SeoHeroProps = {
   eyebrow: string;
   title: string;
+  subtitle?: string;
   description: string;
+  note?: string;
   primaryCta: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
 };
@@ -13,7 +15,9 @@ type SeoHeroProps = {
 export default function SeoHero({
   eyebrow,
   title,
+  subtitle,
   description,
+  note,
   primaryCta,
   secondaryCta,
 }: SeoHeroProps) {
@@ -28,9 +32,19 @@ export default function SeoHero({
             <h1 className="font-display font-medium text-white/95 tracking-tight [word-break:keep-all] text-[clamp(1.75rem,5vw,3rem)] leading-[1.2] mb-5 sm:mb-6">
               {title}
             </h1>
+            {subtitle ? (
+              <p className="text-gold/55 text-sm sm:text-base font-light mb-4 -mt-2">
+                {subtitle}
+              </p>
+            ) : null}
             <p className="text-white/50 text-sm sm:text-base md:text-lg leading-relaxed font-light max-w-2xl">
               {description}
             </p>
+            {note && (
+              <p className="mt-4 text-white/35 text-xs sm:text-sm leading-relaxed max-w-2xl">
+                {note}
+              </p>
+            )}
             <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <Link
                 href={primaryCta.href}

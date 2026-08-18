@@ -75,7 +75,22 @@ type JsonLdGraphInput = {
   serviceName: string;
   breadcrumbs: { name: string; path?: string }[];
   faq?: { question: string; answer: string }[];
+  offers?: readonly { name: string; price: number }[];
+  areaServed?: readonly { type: string; name: string }[];
 };
+
+function buildOffersSchema(
+  providerId: string,
+  offers: readonly { name: string; price: number }[],
+) {
+  return offers.map((offer) => ({
+    "@type": "Offer",
+    name: offer.name,
+    price: offer.price,
+    priceCurrency: "TWD",
+    offeredBy: { "@id": providerId },
+  }));
+}
 
 export function buildSeoPageJsonLd({
   path,
@@ -84,9 +99,14 @@ export function buildSeoPageJsonLd({
   serviceName,
   breadcrumbs,
   faq = [],
+  offers,
+  areaServed,
 }: JsonLdGraphInput) {
   const pageUrl = `${SITE_URL}${path}`;
   const organization = getOrganizationSchema();
+  const serviceOffers = offers
+    ? buildOffersSchema(organization["@id"] as string, offers)
+    : getPricingOffersSchema(organization["@id"] as string);
 
   const graph: Record<string, unknown>[] = [
     organization,
@@ -107,8 +127,10 @@ export function buildSeoPageJsonLd({
       name: serviceName,
       description,
       provider: { "@id": organization["@id"] },
-      areaServed: { "@type": "Country", name: "Taiwan" },
-      offers: getPricingOffersSchema(organization["@id"] as string),
+      areaServed: areaServed?.length
+        ? areaServed.map((area) => ({ "@type": area.type, name: area.name }))
+        : { "@type": "Country", name: "Taiwan" },
+      offers: serviceOffers,
     },
     {
       "@type": "BreadcrumbList",
@@ -181,4 +203,5 @@ export const SEO_NAV_LINKS = [
   { href: "/events/annual-dinner", label: "尾牙魔術" },
   { href: "/services/stage-magic", label: "舞台魔術" },
   { href: "/pricing", label: "演出費用" },
+  { href: "/lighting-sound", label: "燈光音響" },
 ] as const;

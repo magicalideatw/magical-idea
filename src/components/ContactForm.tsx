@@ -10,8 +10,13 @@ import {
 } from "react";
 import { Send, Mail, MessageCircle, ChevronDown, Loader2 } from "lucide-react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
-import { SITE, SERVICES } from "@/lib/constants";
-import { BUDGET_OPTIONS, BUDGET_FIELD_HINT } from "@/lib/inquiry";
+import { SITE } from "@/lib/constants";
+import {
+  BUDGET_OPTIONS,
+  BUDGET_FIELD_HINT,
+  EVENT_TYPE_OPTIONS,
+  SERVICE_NEED_OPTIONS,
+} from "@/lib/inquiry";
 import Toast, { ToastType } from "./Toast";
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
@@ -95,8 +100,78 @@ function SelectField({
   );
 }
 
+function ServiceNeedsField({
+  selected,
+  onChange,
+  disabled,
+}: {
+  selected: string[];
+  onChange: (values: string[]) => void;
+  disabled?: boolean;
+}) {
+  const toggle = (value: string) => {
+    if (disabled) return;
+
+    onChange(
+      selected.includes(value)
+        ? selected.filter((item) => item !== value)
+        : [...selected, value],
+    );
+  };
+
+  return (
+    <Field label="需要的服務" htmlFor="service-magic-performance" required>
+      <p className="text-white/35 text-xs leading-relaxed mb-3 -mt-1">
+        可複選多項服務
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {SERVICE_NEED_OPTIONS.map((option) => {
+          const isSelected = selected.includes(option.value);
+
+          return (
+            <button
+              key={option.value}
+              type="button"
+              id={
+                option.value === "magic-performance"
+                  ? "service-magic-performance"
+                  : undefined
+              }
+              aria-pressed={isSelected}
+              disabled={disabled}
+              onClick={() => toggle(option.value)}
+              className={`w-full px-4 py-3.5 rounded-xl border text-left text-sm transition-all duration-300 disabled:opacity-50 ${
+                isSelected
+                  ? "border-gold/50 bg-gold/10 text-white"
+                  : "border-gold/10 bg-black/50 text-white/60 hover:border-gold/25 hover:text-white/80"
+              }`}
+            >
+              <span className="flex items-center gap-3">
+                <span
+                  className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center ${
+                    isSelected
+                      ? "border-gold bg-gold text-black"
+                      : "border-gold/30 bg-transparent"
+                  }`}
+                  aria-hidden="true"
+                >
+                  {isSelected ? (
+                    <span className="text-[10px] font-bold leading-none">✓</span>
+                  ) : null}
+                </span>
+                {option.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </Field>
+  );
+}
+
 export default function ContactForm() {
   const [loading, setLoading] = useState(false);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(
     null,
@@ -114,6 +189,14 @@ export default function ContactForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setToast(null);
+
+    if (selectedServices.length === 0) {
+      setToast({
+        type: "error",
+        message: "請至少選擇一項需要的服務。",
+      });
+      return;
+    }
 
     if (TURNSTILE_SITE_KEY && !turnstileToken) {
       setToast({
@@ -135,6 +218,7 @@ export default function ContactForm() {
       date: formData.get("eventDate"),
       location: formData.get("eventLocation"),
       eventType: formData.get("eventType"),
+      services: selectedServices,
       budget: formData.get("budget"),
       message: formData.get("notes") ?? "",
       website: formData.get("website") ?? "",
@@ -161,6 +245,7 @@ export default function ContactForm() {
 
       if (response.ok && result.success === true) {
         form.reset();
+        setSelectedServices([]);
         setTurnstileToken("");
         turnstileRef.current?.reset();
         formLoadedAtRef.current = Date.now();
@@ -340,23 +425,26 @@ export default function ContactForm() {
                 required
                 disabled={loading}
                 placeholder="請選擇活動類型"
-                options={[
-                  ...SERVICES.map((s) => ({ value: s.id, label: s.title })),
-                  { value: "other", label: "其他" },
-                ]}
+                options={EVENT_TYPE_OPTIONS}
               />
 
               <SelectField
                 id="budget"
                 name="budget"
-                label="預計演出預算"
+                label="預算範圍"
                 required
                 disabled={loading}
-                placeholder="請選擇預計演出預算"
+                placeholder="請選擇預算範圍"
                 hint={BUDGET_FIELD_HINT}
                 options={BUDGET_OPTIONS}
               />
             </div>
+
+            <ServiceNeedsField
+              selected={selectedServices}
+              onChange={setSelectedServices}
+              disabled={loading}
+            />
 
             <Field label="備註" htmlFor="notes">
               <textarea
@@ -365,7 +453,7 @@ export default function ContactForm() {
                 rows={4}
                 disabled={loading}
                 className={`${inputClass} resize-none`}
-                placeholder="請描述預估人數、活動流程或其他特殊需求..."
+                placeholder="請描述預估人數、活動流程、場地資訊或其他特殊需求……"
               />
             </Field>
 

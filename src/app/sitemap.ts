@@ -12,6 +12,7 @@ const publicRoutes = [
   "/events/annual-dinner",
   "/services/stage-magic",
   "/pricing",
+  "/lighting-sound",
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -21,6 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${SITE_URL}${path}`,
     lastModified,
     changeFrequency: path === "" ? "weekly" : "monthly",
-    priority: path === "" ? 1 : path === "/year-end-party" || path.startsWith("/events/") || path.startsWith("/services/stage") || path === "/pricing" ? 0.9 : 0.8,
+    priority: path === "" ? 1 : path === "/year-end-party" || path.startsWith("/events/") || path.startsWith("/services/stage") || path === "/pricing" || path === "/lighting-sound" ? 0.9 : 0.8,
   }));
 }
