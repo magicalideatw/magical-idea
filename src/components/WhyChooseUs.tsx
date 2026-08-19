@@ -14,7 +14,7 @@ export default function WhyChooseUs() {
         <AnimatedSection>
           <SectionHeading
             subtitle="Why Choose Us"
-            title="為什麼選擇魔幻點子？"
+            title="為什麼選擇魔幻點子"
           />
         </AnimatedSection>
 

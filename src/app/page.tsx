@@ -1,13 +1,22 @@
 import Hero from "@/components/Hero";
-import PricingSection from "@/components/PricingSection";
+import HomeServiceIntro from "@/components/HomeServiceIntro";
 import HomeServices from "@/components/HomeServices";
-import FeaturedVideo from "@/components/FeaturedVideo";
+import PricingSection from "@/components/PricingSection";
+import HomeCasesPreview from "@/components/HomeCasesPreview";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import HomeFaq from "@/components/HomeFaq";
 import HomeFinalCTA from "@/components/HomeFinalCTA";
 import JsonLd from "@/components/JsonLd";
 import { HOME_FAQ_ITEMS } from "@/lib/home-faq";
-import { buildFaqPageJsonLd } from "@/lib/seo";
+import { HOME_DESCRIPTION, HOME_TITLE } from "@/lib/home-seo";
+import { buildFaqPageJsonLd, createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: HOME_TITLE,
+  description: HOME_DESCRIPTION,
+  path: "/",
+  ogImageAlt: "舞台魔術與活動魔術表演現場",
+});
 
 export default function HomePage() {
   const faqJsonLd = buildFaqPageJsonLd(
@@ -22,9 +31,10 @@ export default function HomePage() {
       <JsonLd data={faqJsonLd} />
 
       <Hero />
-      <PricingSection />
+      <HomeServiceIntro />
       <HomeServices />
-      <FeaturedVideo />
+      <PricingSection />
+      <HomeCasesPreview />
       <WhyChooseUs />
       <HomeFaq />
       <HomeFinalCTA />

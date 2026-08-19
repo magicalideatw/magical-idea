@@ -5,108 +5,58 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { HOME_HERO_SUBTITLE } from "@/lib/home-seo";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const PARALLAX_MAX_X = 8;
 const PARALLAX_MAX_Y = 6;
-const MOBILE_HERO_OVERLAP_PX = 85;
+const HERO_IMAGE_ALT = "舞台魔術與活動魔術表演現場";
 
-function HeroContentDesktop() {
+function HeroContent() {
   return (
-    <>
+    <div className="max-w-[580px]">
       <motion.p
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.15, ease: EASE }}
-        className="font-display font-medium text-gold text-[clamp(1.75rem,2.2vw,2.25rem)] tracking-wide mb-5 whitespace-nowrap"
+        className="font-display font-medium text-gold text-sm sm:text-[clamp(1.75rem,2.2vw,2.25rem)] tracking-wide mb-3 sm:mb-5"
       >
-        <span className="whitespace-nowrap">魔幻點子</span>
-        <span className="whitespace-nowrap">表演娛樂</span>
+        魔幻點子表演娛樂
       </motion.p>
 
       <motion.h1
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, delay: 0.3, ease: EASE }}
-        className="font-display font-medium text-white/95 tracking-tight [word-break:keep-all] text-[clamp(3rem,3.2vw,4rem)] leading-[1.3]"
+        className="font-display font-medium text-white/95 tracking-tight [word-break:keep-all] text-[clamp(1.625rem,6.2vw,4rem)] leading-[1.3]"
       >
-        <span className="block">讓魔術，成為活動</span>
-        <span className="block">最難忘的瞬間。</span>
+        魔術表演｜舞台魔術與活動演出
       </motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.5, ease: EASE }}
-        className="mt-5 text-white/45 text-sm tracking-wide [word-break:keep-all]"
+        className="mt-3 sm:mt-5 text-white/45 text-xs sm:text-sm tracking-wide [word-break:keep-all] leading-relaxed"
       >
-        專業舞台魔術｜企業活動｜婚禮｜親子活動
+        {HOME_HERO_SUBTITLE}
       </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.65, ease: EASE }}
-        className="mt-8"
+        className="mt-5 sm:mt-8"
       >
         <Link
           href="/contact"
-          className="btn-primary justify-start text-sm w-auto"
+          className="btn-primary w-full sm:w-auto justify-center sm:justify-start text-sm py-3.5 sm:py-0"
         >
-          立即詢問演出
+          立即詢價
           <ArrowRight className="w-4 h-4" />
         </Link>
       </motion.div>
-    </>
-  );
-}
-
-function HeroContentMobile() {
-  return (
-    <>
-      <motion.p
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.15, ease: EASE }}
-        className="font-display text-sm font-medium tracking-wide text-gold/70 mb-3"
-      >
-        魔幻點子表演娛樂
-      </motion.p>
-
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.28, ease: EASE }}
-        className="font-display font-medium text-white/95 tracking-tight [word-break:keep-all] text-[clamp(1.625rem,6.2vw,1.875rem)] leading-[1.35]"
-      >
-        <span className="block">讓魔術，成為活動</span>
-        <span className="block">最難忘的瞬間</span>
-      </motion.h1>
-
-      <motion.p
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.42, ease: EASE }}
-        className="mt-3 text-white/45 text-xs leading-relaxed tracking-wide [word-break:keep-all]"
-      >
-        專業舞台魔術｜企業活動｜婚禮｜親子活動
-      </motion.p>
-
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.55, ease: EASE }}
-        className="mt-5"
-      >
-        <Link
-          href="/contact"
-          className="btn-primary w-full justify-center text-sm py-3.5"
-        >
-          立即詢問演出
-          <ArrowRight className="w-4 h-4" />
-        </Link>
-      </motion.div>
-    </>
+    </div>
   );
 }
 
@@ -182,7 +132,7 @@ function HeroImage({ enableParallax = false, layout = "desktop" }: HeroImageProp
         >
           <Image
             src="/hero-magic.jpg"
-            alt="魔幻點子魔術表演"
+            alt={HERO_IMAGE_ALT}
             fill
             priority
             className="object-cover object-[center_38%]"
@@ -207,7 +157,7 @@ function HeroImage({ enableParallax = false, layout = "desktop" }: HeroImageProp
         <div className={reducedMotion ? undefined : "hero-ken-burns"}>
           <Image
             src="/hero-magic.jpg"
-            alt="魔幻點子魔術表演"
+            alt={HERO_IMAGE_ALT}
             width={4894}
             height={3263}
             priority
@@ -223,27 +173,16 @@ function HeroImage({ enableParallax = false, layout = "desktop" }: HeroImageProp
 export default function Hero() {
   return (
     <section className="relative overflow-x-hidden bg-background">
-      {/* Desktop / tablet — unchanged layout */}
-      <div className="relative hidden w-full max-w-[100vw] sm:block">
-        <HeroImage enableParallax layout="desktop" />
-
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/90 via-black/55 via-45% to-transparent"
-          aria-hidden
-        />
-
-        <div className="pointer-events-none absolute inset-0 flex items-center">
-          <div className="pointer-events-auto mx-auto w-full max-w-[1400px] px-8 lg:px-12">
-            <div className="w-full max-w-[580px]">
-              <HeroContentDesktop />
-            </div>
-          </div>
+      <div className="relative w-full max-w-[100vw]">
+        <div className="hidden sm:block">
+          <HeroImage enableParallax layout="desktop" />
+          <div
+            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/90 via-black/55 via-45% to-transparent"
+            aria-hidden
+          />
         </div>
-      </div>
 
-      {/* Mobile — image + overlapping content panel */}
-      <div className="relative overflow-x-hidden sm:hidden">
-        <div className="relative h-[clamp(380px,105vw,420px)] w-full max-w-full overflow-hidden">
+        <div className="relative h-[clamp(380px,105vw,420px)] w-full overflow-hidden sm:hidden">
           <HeroImage layout="mobile" />
           <div
             className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#030303] from-20% via-black/55 via-55% to-transparent"
@@ -252,10 +191,11 @@ export default function Hero() {
         </div>
 
         <div
-          className="relative z-10 mx-6 max-w-full rounded-t-[20px] bg-[#030303] px-6 pb-8 pt-6"
-          style={{ marginTop: `-${MOBILE_HERO_OVERLAP_PX}px` }}
+          className="relative z-10 mx-6 max-w-full rounded-t-[20px] bg-[#030303] px-6 pb-8 pt-6 -mt-[85px] sm:absolute sm:inset-0 sm:mx-0 sm:mt-0 sm:flex sm:items-center sm:rounded-none sm:bg-transparent sm:px-8 lg:px-12 sm:pb-0 sm:pt-0"
         >
-          <HeroContentMobile />
+          <div className="pointer-events-auto mx-auto w-full max-w-[1400px] sm:px-0">
+            <HeroContent />
+          </div>
         </div>
       </div>
     </section>
