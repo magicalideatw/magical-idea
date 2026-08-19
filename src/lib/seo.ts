@@ -157,6 +157,20 @@ export function buildSeoPageJsonLd({
   return { "@context": "https://schema.org", "@graph": graph };
 }
 
+export function buildFaqPageJsonLd(
+  faq: readonly { question: string; answer: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}
+
 export const PRICING_DISCLAIMER =
   "以上為各類演出的起始價格，實際費用將依活動日期、地點、演出時間、演出形式、活動規模及製作需求評估。";
 
