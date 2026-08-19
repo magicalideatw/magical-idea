@@ -28,21 +28,17 @@ export const SERVICE_NEED_OPTIONS = [
 ] as const;
 
 export const BUDGET_LABELS: Record<string, string> = {
-  "under-5k": "5,000 元以下",
   "5k-10k": "5,000～10,000 元",
   "10k-20k": "10,000～20,000 元",
   "20k-50k": "20,000～50,000 元",
   "50k-plus": "50,000 元以上",
-  undecided: "尚未確定，請協助估價",
 };
 
 export const BUDGET_OPTIONS = [
-  { value: "under-5k", label: BUDGET_LABELS["under-5k"] },
   { value: "5k-10k", label: BUDGET_LABELS["5k-10k"] },
   { value: "10k-20k", label: BUDGET_LABELS["10k-20k"] },
   { value: "20k-50k", label: BUDGET_LABELS["20k-50k"] },
   { value: "50k-plus", label: BUDGET_LABELS["50k-plus"] },
-  { value: "undecided", label: BUDGET_LABELS.undecided },
 ] as const;
 
 export const BUDGET_FIELD_HINT =
