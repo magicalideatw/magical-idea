@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Breadcrumb from "@/components/Breadcrumb";
 import JsonLd from "@/components/JsonLd";
@@ -9,7 +10,20 @@ import RelatedLinks from "@/components/seo/RelatedLinks";
 import PageCta from "@/components/seo/PageCta";
 import AnimatedSection from "@/components/AnimatedSection";
 import SectionHeading from "@/components/SectionHeading";
-import { createPageMetadata, buildSeoPageJsonLd } from "@/lib/seo";
+import { SITE } from "@/lib/constants";
+import {
+  createPageMetadata,
+  DEFAULT_OG_IMAGE,
+  getOrganizationSchema,
+  getWebsiteSchema,
+  SITE_URL,
+} from "@/lib/seo";
+
+const SCHEMA_PAGE_NAME =
+  "桃園燈光音響｜雙北・桃竹苗活動燈光音響服務｜魔幻點子";
+
+const HERO_IMAGE_ALT =
+  "桃園雙北桃竹苗活動燈光音響與舞台技術服務";
 
 const PATH = "/lighting-sound";
 
@@ -216,27 +230,99 @@ const AREA_SERVED = [
   { type: "Country", name: "Taiwan" },
 ] as const;
 
-export const metadata = createPageMetadata({
-  title: TITLE,
-  description: DESCRIPTION,
-  path: PATH,
-  ogImageAlt: "雙北桃竹苗活動舞台燈光與活動音響現場技術服務",
-});
+function buildLightingSoundPageJsonLd() {
+  const pageUrl = `${SITE_URL}${PATH}`;
+  const organization = {
+    ...getOrganizationSchema(),
+    logo: {
+      "@type": "ImageObject",
+      url: DEFAULT_OG_IMAGE,
+    },
+  };
+  const orgId = organization["@id"] as string;
 
-export default function LightingSoundPage() {
-  const jsonLd = buildSeoPageJsonLd({
-    path: PATH,
+  const serviceOffers = SCHEMA_OFFERS.map((offer) => ({
+    "@type": "Offer",
+    name: offer.name,
+    price: offer.price,
+    priceCurrency: "TWD",
+    offeredBy: { "@id": orgId },
+  }));
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      organization,
+      getWebsiteSchema(),
+      {
+        "@type": "WebPage",
+        "@id": `${pageUrl}/#webpage`,
+        url: pageUrl,
+        name: SCHEMA_PAGE_NAME,
+        description: DESCRIPTION,
+        inLanguage: "zh-TW",
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        about: { "@id": `${pageUrl}/#service` },
+        publisher: { "@id": orgId },
+      },
+      {
+        "@type": "Service",
+        "@id": `${pageUrl}/#service`,
+        name: "雙北・桃竹苗活動燈光音響整合服務",
+        description: DESCRIPTION,
+        provider: { "@id": orgId },
+        areaServed: AREA_SERVED.map((area) => ({
+          "@type": area.type,
+          name: area.name,
+        })),
+        offers: serviceOffers,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "首頁",
+            item: `${SITE_URL}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "活動燈光音響",
+            item: pageUrl,
+          },
+        ],
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: FAQ_ITEMS.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
+      },
+    ],
+  };
+}
+
+export const metadata = {
+  ...createPageMetadata({
     title: TITLE,
     description: DESCRIPTION,
-    serviceName: "雙北・桃竹苗活動燈光音響整合服務",
-    breadcrumbs: [
-      { name: "首頁", path: "/" },
-      { name: "活動燈光音響" },
-    ],
-    faq: [...FAQ_ITEMS],
-    offers: SCHEMA_OFFERS,
-    areaServed: [...AREA_SERVED],
-  });
+    path: PATH,
+    ogImageAlt: "雙北桃竹苗活動舞台燈光與活動音響現場技術服務",
+  }),
+  robots: {
+    index: true,
+    follow: true,
+  },
+  authors: [{ name: SITE.name }],
+  publisher: SITE.name,
+};
+
+export default function LightingSoundPage() {
+  const jsonLd = buildLightingSoundPageJsonLd();
 
   return (
     <>
@@ -258,6 +344,15 @@ export default function LightingSoundPage() {
         primaryCta={{ label: "立即詢價", href: "/contact" }}
         secondaryCta={{ label: "查看服務內容", href: "#services" }}
       />
+      <div className="sr-only" aria-hidden="true">
+        <Image
+          src="/images/stage-show.jpg"
+          alt={HERO_IMAGE_ALT}
+          width={1200}
+          height={750}
+          loading="lazy"
+        />
+      </div>
 
       <section id="services" className="section-padding bg-surface">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
