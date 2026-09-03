@@ -7,6 +7,7 @@ interface SectionHeadingProps {
   title: string;
   description?: string;
   align?: "center" | "left";
+  titleAs?: "h1" | "h2";
 }
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -16,8 +17,10 @@ export default function SectionHeading({
   title,
   description,
   align = "center",
+  titleAs = "h2",
 }: SectionHeadingProps) {
   const alignClass = align === "center" ? "text-center mx-auto" : "text-left";
+  const MotionTitle = titleAs === "h1" ? motion.h1 : motion.h2;
 
   return (
     <div className={`max-w-3xl mb-14 sm:mb-20 md:mb-24 ${alignClass}`}>
@@ -32,7 +35,7 @@ export default function SectionHeading({
           {subtitle}
         </motion.p>
       )}
-      <motion.h2
+      <MotionTitle
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -40,7 +43,7 @@ export default function SectionHeading({
         className="font-display text-[clamp(1.75rem,5vw,3.75rem)] font-medium tracking-tight leading-[1.1] mb-5 sm:mb-6"
       >
         <span className="gold-gradient-text">{title}</span>
-      </motion.h2>
+      </MotionTitle>
       {description && (
         <motion.p
           initial={{ opacity: 0, y: 20 }}

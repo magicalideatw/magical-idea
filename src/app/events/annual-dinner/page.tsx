@@ -12,7 +12,7 @@ import PageCta from "@/components/seo/PageCta";
 import RelatedLinks from "@/components/seo/RelatedLinks";
 import AnimatedSection from "@/components/AnimatedSection";
 import SectionHeading from "@/components/SectionHeading";
-import { createPageMetadata, buildSeoPageJsonLd } from "@/lib/seo";
+import { brandHeading, createPageMetadata, buildSeoPageJsonLd } from "@/lib/seo";
 import { FAQ_STAGE_MAGIC_PRICE } from "@/lib/constants";
 
 const PATH = "/events/annual-dinner";
@@ -92,7 +92,7 @@ export default function AnnualDinnerPage() {
 
       <SeoHero
         eyebrow="Annual Dinner Magic"
-        title="尾牙魔術表演"
+        title={brandHeading("尾牙魔術表演")}
         description="專業舞台魔術與互動演出，為企業尾牙、公司年終聚餐與企業晚會規劃適合的魔術節目。"
         primaryCta={{ label: "詢問尾牙魔術演出", href: "/contact" }}
         secondaryCta={{ label: "觀看演出影片", href: "/videos" }}

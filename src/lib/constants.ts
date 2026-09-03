@@ -92,36 +92,60 @@ export const CLIENT_CASES = [
     event: "年度尾牙晚會",
     type: "舞台魔術 × 互動抽獎",
     year: "2025",
+    image: {
+      src: "/images/year-end-party-magic.png",
+      alt: "企業尾牙舞台魔術表演",
+    },
   },
   {
     client: "知名大學",
     event: "畢業典禮開場演出",
     type: "大型舞台魔術",
     year: "2024",
+    image: {
+      src: "/images/school-event.jpg",
+      alt: "校園活動魔術演出",
+    },
   },
   {
     client: "政府機關",
     event: "國際交流晚宴",
     type: "沿桌魔術 × 舞台秀",
     year: "2024",
+    image: {
+      src: "/images/stage-show.jpg",
+      alt: "政府活動舞台魔術表演",
+    },
   },
   {
     client: "五星級飯店",
     event: "婚宴魔術表演",
     type: "婚宴魔術",
     year: "2025",
+    image: {
+      src: "/images/wedding-magic.jpg",
+      alt: "婚宴魔術表演現場",
+    },
   },
   {
     client: "外商企業",
     event: "家庭日嘉年華",
     type: "互動魔術 × 街頭表演",
     year: "2025",
+    image: {
+      src: "/images/corporate-family-day-magic.png",
+      alt: "企業家庭日魔術表演",
+    },
   },
   {
     client: "上市櫃公司",
     event: "春酒晚宴",
     type: "舞台魔術 × 頒獎主持",
     year: "2024",
+    image: {
+      src: "/images/close-up-magic.jpg",
+      alt: "春酒晚宴互動魔術表演",
+    },
   },
 ] as const;
 

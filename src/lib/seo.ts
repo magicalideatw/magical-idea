@@ -25,6 +25,11 @@ export function getWebsiteSchema() {
   };
 }
 
+/** 頁面可見 H1 / 標題後綴品牌名稱 */
+export function brandHeading(topic: string): string {
+  return `${topic}｜${SITE.name}`;
+}
+
 type PageSeoInput = {
   title: string;
   description: string;
@@ -44,6 +49,10 @@ export function createPageMetadata({
     title: { absolute: title },
     description,
     alternates: { canonical: url },
+    robots: {
+      index: true,
+      follow: true,
+    },
     openGraph: {
       title,
       description,

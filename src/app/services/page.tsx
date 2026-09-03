@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -14,11 +13,35 @@ import AnimatedSection from "@/components/AnimatedSection";
 import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
 import { SERVICES } from "@/lib/constants";
+import { brandHeading, createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "演出項目",
-  description:
-    "舞台魔術秀、尾牙春酒演出、企業家庭日、校園活動、婚宴魔術、沿桌魔術 — 多元化魔術表演方案。",
+const PATH = "/services";
+
+const TITLE = "魔術表演｜企業尾牙・春酒・校園・婚宴｜魔幻點子表演娛樂";
+
+const DESCRIPTION =
+  "提供專業魔術表演服務，包含舞台魔術、企業尾牙春酒、家庭日、校園活動、婚宴魔術與沿桌互動演出，打造適合各種活動的精彩演出。";
+
+const KEYWORDS = [
+  "魔術表演",
+  "舞台魔術",
+  "企業尾牙",
+  "尾牙魔術",
+  "春酒魔術",
+  "校園魔術",
+  "婚宴魔術",
+  "沿桌魔術",
+  "企業活動表演",
+] as const;
+
+export const metadata = {
+  ...createPageMetadata({
+    title: TITLE,
+    description: DESCRIPTION,
+    path: PATH,
+    ogImageAlt: "魔幻點子舞台魔術表演服務",
+  }),
+  keywords: [...KEYWORDS],
 };
 
 const iconMap = {
@@ -29,6 +52,32 @@ const iconMap = {
   heart: Heart,
   wand: Wand2,
 } as const;
+
+/** 前台顯示標題（不修改 constants 內部資料） */
+const SERVICE_DISPLAY_TITLES: Record<string, string> = {
+  stage: "舞台魔術秀",
+  corporate: "尾牙・春酒魔術表演",
+  family: "企業家庭日",
+  campus: "校園魔術演出",
+  wedding: "婚宴魔術",
+  table: "沿桌魔術",
+};
+
+/** 各分類介紹（約 40～70 字） */
+const SERVICE_INTROS: Record<string, string> = {
+  stage:
+    "以大型視覺效果與專業舞台呈現，適合企業晚會、頒獎典禮與大型活動開場或壓軸，帶來震撼全場的魔術演出。",
+  corporate:
+    "為企業尾牙、春酒量身規劃魔術橋段，可融入頒獎、抽獎與串場環節，帶動現場氣氛，讓員工留下深刻印象。",
+  family:
+    "適合企業家庭日與園遊會的互動魔術，親子同樂、安全有趣，在輕鬆氛圍中為大小朋友創造難忘的魔法時光。",
+  campus:
+    "結合教育與娛樂的校園魔術演出，適合開學典禮、畢業典禮與社團活動，依活動主題規劃符合校園需求的表演內容。",
+  wedding:
+    "為新人與賓客量身設計婚宴魔術橋段，在浪漫氛圍中穿插驚喜與互動，讓婚禮宴會增添難忘的感動時刻。",
+  table:
+    "魔術師於宴會桌間近距離互動演出，每桌精采體驗約五至十分鐘，不影響用餐流程，適合婚宴、餐會與 VIP 晚宴。",
+};
 
 const serviceDetails: Record<
   string,
@@ -93,27 +142,27 @@ const serviceDetails: Record<
 const SERVICE_IMAGES: Record<string, { src: string; alt: string }> = {
   stage: {
     src: "/images/stage-show.jpg",
-    alt: "魔幻點子表演娛樂舞台魔術秀演出",
+    alt: "魔幻點子舞台魔術表演現場",
   },
   corporate: {
     src: "/images/year-end-party-magic.png",
-    alt: "尾牙春酒魔術表演｜魔幻點子表演娛樂",
+    alt: "尾牙春酒企業活動魔術表演",
   },
   family: {
     src: "/images/corporate-family-day-magic.png",
-    alt: "企業家庭日魔術表演｜魔幻點子表演娛樂",
+    alt: "企業家庭日活動魔術表演",
   },
   campus: {
     src: "/images/school-event.jpg",
-    alt: "魔幻點子表演娛樂校園魔術活動",
+    alt: "校園活動魔術表演現場",
   },
   wedding: {
     src: "/images/wedding-magic.jpg",
-    alt: "魔幻點子表演娛樂婚禮魔術演出",
+    alt: "婚宴魔術表演現場",
   },
   table: {
     src: "/images/close-up-magic.jpg",
-    alt: "魔幻點子表演娛樂沿桌魔術演出",
+    alt: "沿桌魔術表演現場",
   },
 };
 
@@ -170,7 +219,8 @@ export default function ServicesPage() {
           <AnimatedSection>
             <SectionHeading
               subtitle="Our Services"
-              title="演出項目"
+              title={brandHeading("魔術表演服務")}
+              titleAs="h1"
               description="從震撼全場的舞台魔術秀，到親密互動的沿桌表演，我們提供完整的魔術娛樂解決方案。"
             />
           </AnimatedSection>
@@ -178,77 +228,87 @@ export default function ServicesPage() {
       </section>
 
       <section className="py-24 md:py-32 section-gradient">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 space-y-16">
-          {SERVICES.map((service, index) => {
-            const Icon = iconMap[service.icon];
-            const details = serviceDetails[service.id];
-            const isEven = index % 2 === 0;
-            const mobileImageFirst = hasServiceImage(service.id);
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <AnimatedSection>
+            <SectionHeading align="left" title="魔術演出類型" />
+          </AnimatedSection>
 
-            return (
-              <AnimatedSection key={service.id} delay={0.1}>
-                <div
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-                    !isEven ? "lg:direction-rtl" : ""
-                  }`}
-                >
+          <div className="space-y-16">
+            {SERVICES.map((service, index) => {
+              const Icon = iconMap[service.icon];
+              const details = serviceDetails[service.id];
+              const isEven = index % 2 === 0;
+              const mobileImageFirst = hasServiceImage(service.id);
+              const displayTitle =
+                SERVICE_DISPLAY_TITLES[service.id] ?? service.title;
+              const intro =
+                SERVICE_INTROS[service.id] ?? service.description;
+
+              return (
+                <AnimatedSection key={service.id} delay={0.1}>
                   <div
-                    className={`${!isEven ? "lg:order-2" : ""} ${
-                      mobileImageFirst ? "order-2" : ""
+                    className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
+                      !isEven ? "lg:direction-rtl" : ""
                     }`}
                   >
-                    <div className="inline-flex items-center gap-3 mb-6">
-                      <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center">
-                        <Icon className="w-7 h-7 text-gold" />
+                    <div
+                      className={`${!isEven ? "lg:order-2" : ""} ${
+                        mobileImageFirst ? "order-2" : ""
+                      }`}
+                    >
+                      <div className="inline-flex items-center gap-3 mb-6">
+                        <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center">
+                          <Icon className="w-7 h-7 text-gold" />
+                        </div>
+                        <span className="text-gold/60 text-sm tracking-widest uppercase">
+                          0{index + 1}
+                        </span>
                       </div>
-                      <span className="text-gold/60 text-sm tracking-widest uppercase">
-                        0{index + 1}
-                      </span>
-                    </div>
-                    <h3 className="font-display text-3xl md:text-4xl text-white mb-4">
-                      {service.title}
-                    </h3>
-                    <p className="text-white/60 leading-relaxed mb-8 font-light">
-                      {service.description}
-                    </p>
-                    <ul className="space-y-3 mb-8">
-                      {details.features.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex items-center gap-3 text-white/50 text-sm"
+                      <h3 className="font-display text-3xl md:text-4xl text-white mb-4">
+                        {displayTitle}
+                      </h3>
+                      <p className="text-white/60 leading-relaxed mb-8 font-light">
+                        {intro}
+                      </p>
+                      <ul className="space-y-3 mb-8">
+                        {details.features.map((feature) => (
+                          <li
+                            key={feature}
+                            className="flex items-center gap-3 text-white/50 text-sm"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="text-gold/80 text-sm">
+                        適合場景：{details.ideal}
+                      </p>
+                      {service.id === "corporate" && (
+                        <Link
+                          href="/year-end-party"
+                          className="inline-flex items-center gap-2 mt-6 text-gold/70 text-sm hover:text-gold transition-colors"
                         >
-                          <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="text-gold/80 text-sm">
-                      適合場景：{details.ideal}
-                    </p>
-                    {service.id === "corporate" && (
-                      <Link
-                        href="/year-end-party"
-                        className="inline-flex items-center gap-2 mt-6 text-gold/70 text-sm hover:text-gold transition-colors"
-                      >
-                        了解尾牙魔術表演方案
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    )}
+                          了解尾牙魔術表演方案
+                          <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      )}
+                    </div>
+
+                    <ServiceVisual
+                      serviceId={service.id}
+                      icon={Icon}
+                      isEven={isEven}
+                    />
                   </div>
 
-                  <ServiceVisual
-                    serviceId={service.id}
-                    icon={Icon}
-                    isEven={isEven}
-                  />
-                </div>
-
-                {index < SERVICES.length - 1 && (
-                  <div className="mt-16 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
-                )}
-              </AnimatedSection>
-            );
-          })}
+                  {index < SERVICES.length - 1 && (
+                    <div className="mt-16 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+                  )}
+                </AnimatedSection>
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -269,7 +329,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <CTASection />
+      <CTASection title="為你的活動打造精彩魔術演出" />
     </>
   );
 }

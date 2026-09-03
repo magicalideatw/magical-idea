@@ -10,7 +10,9 @@ import RelatedLinks from "@/components/seo/RelatedLinks";
 import PageCta from "@/components/seo/PageCta";
 import AnimatedSection from "@/components/AnimatedSection";
 import SectionHeading from "@/components/SectionHeading";
+import ServiceInformationSection from "@/components/ServiceInformationSection";
 import { SITE } from "@/lib/constants";
+import { lightingSoundServiceInfo } from "@/lib/service-info/lighting-sound-service-info";
 import {
   createPageMetadata,
   DEFAULT_OG_IMAGE,
@@ -624,6 +626,8 @@ export default function LightingSoundPage() {
         buttonLabel="立即詢價"
         href="/contact"
       />
+
+      <ServiceInformationSection content={lightingSoundServiceInfo} />
     </>
   );
 }

@@ -1,14 +1,22 @@
-import type { Metadata } from "next";
 import AnimatedSection from "@/components/AnimatedSection";
 import SectionHeading from "@/components/SectionHeading";
 import VideoGrid from "@/components/VideoGrid";
 import CTASection from "@/components/CTASection";
+import { brandHeading, createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "演出影片",
-  description:
-    "觀看魔幻點子表演娛樂的精彩演出影片，包含舞台魔術、沿桌互動及國際賽事回顧。",
-};
+const PATH = "/videos";
+
+const TITLE = "演出影片｜舞台魔術與活動演出｜魔幻點子表演娛樂";
+
+const DESCRIPTION =
+  "觀看魔幻點子表演娛樂的舞台魔術、沿桌互動及國際賽事精彩影片，了解企業尾牙、婚宴與校園活動的魔術演出現場。";
+
+export const metadata = createPageMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+  ogImageAlt: "魔幻點子表演娛樂舞台魔術演出影片",
+});
 
 export default function VideosPage() {
   return (
@@ -18,7 +26,8 @@ export default function VideosPage() {
           <AnimatedSection>
             <SectionHeading
               subtitle="Performance Videos"
-              title="演出影片"
+              title={brandHeading("演出影片")}
+              titleAs="h1"
               description="精選舞台魔術、沿桌互動及國際賽事精彩回顧。點擊播放，感受現場的震撼與驚喜。"
             />
           </AnimatedSection>

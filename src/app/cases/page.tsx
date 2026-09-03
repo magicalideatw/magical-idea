@@ -1,13 +1,28 @@
-import type { Metadata } from "next";
 import AnimatedSection from "@/components/AnimatedSection";
 import SectionHeading from "@/components/SectionHeading";
 import CaseStudies from "@/components/CaseStudies";
 import CTASection from "@/components/CTASection";
+import ServiceInformationSection from "@/components/ServiceInformationSection";
+import { SITE } from "@/lib/constants";
+import { casesServiceInfo } from "@/lib/service-info/cases-service-info";
+import { brandHeading, createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "客戶案例",
-  description:
-    "魔幻點子表演娛樂服務過的企業、學校、政府機構及婚宴案例，見證我們的專業與口碑。",
+const PATH = "/cases";
+
+const TITLE = "客戶案例｜企業、學校、政府活動魔術演出｜魔幻點子表演娛樂";
+
+const DESCRIPTION =
+  "魔幻點子表演娛樂服務企業尾牙、春酒、家庭日、校園活動、政府活動及婚宴等魔術演出，累積多元活動演出經驗。";
+
+export const metadata = {
+  ...createPageMetadata({
+    title: TITLE,
+    description: DESCRIPTION,
+    path: PATH,
+    ogImageAlt: "魔幻點子表演娛樂客戶案例",
+  }),
+  authors: [{ name: SITE.name }],
+  publisher: SITE.name,
 };
 
 export default function CasesPage() {
@@ -18,14 +33,19 @@ export default function CasesPage() {
           <AnimatedSection>
             <SectionHeading
               subtitle="Client Cases"
-              title="客戶案例"
+              title={brandHeading("客戶案例")}
+              titleAs="h1"
               description="我們榮幸為眾多知名企業、學府及政府機構提供專業魔術表演服務，創造無數難忘的活動時刻。"
             />
           </AnimatedSection>
         </div>
       </section>
 
-      <CaseStudies showHeading={false} />
+      <CaseStudies
+        showHeading={false}
+        sectionTitle="合作客戶與演出案例"
+        showImages
+      />
 
       <section className="py-16 section-gradient">
         <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center">
@@ -40,6 +60,8 @@ export default function CasesPage() {
       </section>
 
       <CTASection />
+
+      <ServiceInformationSection content={casesServiceInfo} />
     </>
   );
 }

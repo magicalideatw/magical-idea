@@ -9,11 +9,14 @@ import RelatedLinks from "@/components/seo/RelatedLinks";
 import PricingTierGrid from "./PricingTierGrid";
 import AnimatedSection from "@/components/AnimatedSection";
 import SectionHeading from "@/components/SectionHeading";
-import { createPageMetadata, buildSeoPageJsonLd } from "@/lib/seo";
+import ServiceInformationSection from "@/components/ServiceInformationSection";
+import { pricingServiceInfo } from "@/lib/service-info/pricing-service-info";
+import { brandHeading, createPageMetadata, buildSeoPageJsonLd } from "@/lib/seo";
 import {
   FAQ_MINIMUM_PRICE,
   FAQ_STAGE_MAGIC_PRICE,
   STAGE_MAGIC_TIERS,
+  SITE,
 } from "@/lib/constants";
 
 const PATH = "/pricing";
@@ -23,12 +26,16 @@ const TITLE = "魔術表演費用｜魔術師報價與演出價格｜魔幻點�
 const DESCRIPTION =
   "魔術表演費用公開說明，近距離魔術 NT$10,000 起，舞台魔術 15 分鐘 NT$15,000 起、20–30 分鐘 NT$20,000 起，企業活動依需求報價。";
 
-export const metadata = createPageMetadata({
-  title: TITLE,
-  description: DESCRIPTION,
-  path: PATH,
-  ogImageAlt: "魔幻點子表演娛樂演出費用說明",
-});
+export const metadata = {
+  ...createPageMetadata({
+    title: TITLE,
+    description: DESCRIPTION,
+    path: PATH,
+    ogImageAlt: "魔幻點子表演娛樂演出費用說明",
+  }),
+  authors: [{ name: SITE.name }],
+  publisher: SITE.name,
+};
 
 const faqItems = [
   {
@@ -82,7 +89,7 @@ export default function PricingPage() {
 
       <SeoHero
         eyebrow="Performance Pricing"
-        title="魔術表演費用"
+        title={brandHeading("魔術表演費用")}
         description="公開透明的演出起價說明，協助您了解不同魔術演出形式的費用方向。實際報價將依活動需求評估。"
         primaryCta={{ label: "立即詢問演出", href: "/contact" }}
         secondaryCta={{ label: "查看演出影片", href: "/videos" }}
@@ -222,6 +229,8 @@ export default function PricingPage() {
         description="提供活動日期、地點、預計人數與演出需求，我們將依活動內容提供適合的報價說明。"
         buttonLabel="立即詢問演出"
       />
+
+      <ServiceInformationSection content={pricingServiceInfo} />
     </>
   );
 }

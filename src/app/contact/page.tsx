@@ -1,13 +1,23 @@
-import type { Metadata } from "next";
 import AnimatedSection from "@/components/AnimatedSection";
 import SectionHeading from "@/components/SectionHeading";
 import ContactForm from "@/components/ContactForm";
-import { SITE } from "@/lib/constants";
+import ServiceInformationSection from "@/components/ServiceInformationSection";
+import { contactServiceInfo } from "@/lib/service-info/contact-service-info";
+import { brandHeading, createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "聯絡我們",
-  description: `聯絡 ${SITE.name}，為您的企業尾牙、婚宴、校園或家庭日活動預約專業魔術表演。`,
-};
+const PATH = "/contact";
+
+const TITLE = "聯絡我們｜魔術表演詢價與預約｜魔幻點子表演娛樂";
+
+const DESCRIPTION =
+  "聯絡魔幻點子表演娛樂，為企業尾牙、春酒、家庭日、校園活動、婚宴或政府活動預約專業魔術表演，我們將在 24 小時內回覆。";
+
+export const metadata = createPageMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+  ogImageAlt: "聯絡魔幻點子表演娛樂預約魔術表演",
+});
 
 export default function ContactPage() {
   return (
@@ -17,7 +27,8 @@ export default function ContactPage() {
           <AnimatedSection>
             <SectionHeading
               subtitle="Contact Us"
-              title="聯絡我們"
+              title={brandHeading("聯絡我們")}
+              titleAs="h1"
               description="填寫以下表單或直接透過 LINE 與我們聯繫，我們將在 24 小時內回覆您的詢價需求。"
             />
           </AnimatedSection>
@@ -31,6 +42,8 @@ export default function ContactPage() {
           </AnimatedSection>
         </div>
       </section>
+
+      <ServiceInformationSection content={contactServiceInfo} />
     </>
   );
 }

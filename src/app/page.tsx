@@ -6,7 +6,9 @@ import HomeCasesPreview from "@/components/HomeCasesPreview";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import HomeFaq from "@/components/HomeFaq";
 import HomeFinalCTA from "@/components/HomeFinalCTA";
+import ServiceInformationSection from "@/components/ServiceInformationSection";
 import JsonLd from "@/components/JsonLd";
+import { homeServiceInfo } from "@/lib/service-info/home-service-info";
 import { HOME_FAQ_ITEMS } from "@/lib/home-faq";
 import { HOME_DESCRIPTION, HOME_TITLE } from "@/lib/home-seo";
 import { buildFaqPageJsonLd, createPageMetadata } from "@/lib/seo";
@@ -38,6 +40,7 @@ export default function HomePage() {
       <WhyChooseUs />
       <HomeFaq />
       <HomeFinalCTA />
+      <ServiceInformationSection content={homeServiceInfo} />
     </>
   );
 }

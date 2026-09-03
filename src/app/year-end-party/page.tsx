@@ -7,9 +7,10 @@ import Breadcrumb from "@/components/Breadcrumb";
 import JsonLd from "@/components/JsonLd";
 import YearEndPartyVideos from "@/components/YearEndPartyVideos";
 import {
-  DEFAULT_OG_IMAGE,
-  SITE_URL,
+  brandHeading,
+  createPageMetadata,
   getOrganizationSchema,
+  SITE_URL,
 } from "@/lib/seo";
 import {
   VIDEOS,
@@ -28,34 +29,12 @@ const PAGE_TITLE =
 const PAGE_DESCRIPTION =
   "魔幻點子表演娛樂提供尾牙魔術、春酒表演與企業活動魔術演出，包含舞台魔術與近距離互動演出，依活動流程與需求規劃適合的表演方案。";
 
-export const metadata: Metadata = {
-  title: { absolute: PAGE_TITLE },
+export const metadata: Metadata = createPageMetadata({
+  title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
-  alternates: {
-    canonical: PAGE_URL,
-  },
-  openGraph: {
-    title: PAGE_TITLE,
-    description: PAGE_DESCRIPTION,
-    url: PAGE_URL,
-    locale: "zh_TW",
-    type: "website",
-    images: [
-      {
-        url: DEFAULT_OG_IMAGE,
-        width: 4894,
-        height: 3263,
-        alt: "魔幻點子表演娛樂舞台魔術演出",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: PAGE_TITLE,
-    description: PAGE_DESCRIPTION,
-    images: [DEFAULT_OG_IMAGE],
-  },
-};
+  path: PAGE_PATH,
+  ogImageAlt: "魔幻點子表演娛樂舞台魔術演出",
+});
 
 const whyPoints = [
   "可成為晚會主秀，帶動全場氣氛",
@@ -271,7 +250,7 @@ export default function YearEndPartyPage() {
                 Year-End Party Magic
               </p>
               <h1 className="font-display font-medium text-white/95 tracking-tight [word-break:keep-all] text-[clamp(1.5rem,4.5vw,2.75rem)] leading-[1.35] mb-5 sm:mb-6">
-                尾牙魔術表演｜讓企業尾牙成為難忘的夜晚
+                {brandHeading("尾牙魔術表演")}
               </h1>
               <p className="text-white/50 text-sm sm:text-base md:text-lg leading-relaxed font-light max-w-2xl">
                 專業舞台魔術與互動演出，為企業尾牙、春酒與年終活動打造精彩節目。

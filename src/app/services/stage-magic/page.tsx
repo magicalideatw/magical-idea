@@ -9,9 +9,11 @@ import ProcessSection from "@/components/seo/ProcessSection";
 import FaqSection from "@/components/seo/FaqSection";
 import PageCta from "@/components/seo/PageCta";
 import RelatedLinks from "@/components/seo/RelatedLinks";
+import ServiceInformationSection from "@/components/ServiceInformationSection";
+import { stageMagicServiceInfo } from "@/lib/service-info/stage-magic-service-info";
 import AnimatedSection from "@/components/AnimatedSection";
 import SectionHeading from "@/components/SectionHeading";
-import { createPageMetadata, buildSeoPageJsonLd } from "@/lib/seo";
+import { brandHeading, createPageMetadata, buildSeoPageJsonLd } from "@/lib/seo";
 import { FAQ_STAGE_MAGIC_PRICE, STAGE_MAGIC_TIERS } from "@/lib/constants";
 
 const PATH = "/services/stage-magic";
@@ -85,7 +87,7 @@ export default function StageMagicPage() {
 
       <SeoHero
         eyebrow="Stage Magic Performance"
-        title="舞台魔術表演"
+        title={brandHeading("舞台魔術表演")}
         description="專業舞台魔術演出，為企業活動、尾牙、春酒、婚宴與商業活動打造全場聚焦的魔術節目。"
         primaryCta={{ label: "詢問舞台魔術演出", href: "/contact" }}
         secondaryCta={{ label: "觀看演出影片", href: "/videos" }}
@@ -232,6 +234,8 @@ export default function StageMagicPage() {
         description="提供活動日期、地點、預計人數與場地資訊，我們將依活動內容評估適合的舞台魔術方案。"
         buttonLabel="詢問舞台魔術演出"
       />
+
+      <ServiceInformationSection content={stageMagicServiceInfo} />
     </>
   );
 }

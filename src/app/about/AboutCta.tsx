@@ -4,16 +4,10 @@ import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
+import AnimatedSection from "@/components/AnimatedSection";
 import { SITE, isExternalLineUrl } from "@/lib/constants";
 
-type CTASectionProps = {
-  title?: string;
-};
-
-export default function CTASection({
-  title = "準備好創造魔法了嗎？",
-}: CTASectionProps) {
+export default function AboutCta() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -36,7 +30,7 @@ export default function CTASection({
             Get Started
           </p>
           <h2 className="font-display text-[clamp(1.75rem,5vw,3.75rem)] font-medium tracking-tight mb-5 sm:mb-6 leading-tight">
-            <span className="gold-gradient-text">{title}</span>
+            <span className="gold-gradient-text">準備好創造難忘的魔法了嗎？</span>
           </h2>
           <p className="text-white/45 text-sm sm:text-base md:text-lg mb-10 sm:mb-12 font-light max-w-2xl mx-auto text-balance leading-relaxed">
             無論是企業尾牙、婚宴、校園活動或家庭日，
