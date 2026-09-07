@@ -476,6 +476,29 @@ export default function LightingSoundPage() {
       <section className="section-padding section-gradient">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
           <AnimatedSection>
+            <SectionHeading align="left" title="活動燈光音響實際配置" />
+          </AnimatedSection>
+          <AnimatedSection delay={0.06}>
+            <figure className="max-w-5xl">
+              <img
+                src="/images/event-lighting-sound-equipment.jpg"
+                alt="活動燈光音響設備配置，包含音響、混音器、LED PAR燈與燈架"
+                className="w-full h-auto rounded-xl border border-white/[0.06]"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+            <p className="mt-5 max-w-3xl text-white/45 text-sm sm:text-base leading-relaxed">
+              依照活動場地與演出需求，配置活動音響、LED PAR
+              燈、燈架、混音設備及相關舞台設備，提供從設備架設到現場技術支援的完整服務。
+            </p>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      <section className="section-padding section-gradient">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+          <AnimatedSection>
             <SectionHeading
               title="依活動規模彈性配置"
               description="從企業活動、校園活動、舞台演出到戶外活動，依照場地、觀眾人數、舞台規模與活動流程進行設備規劃。"
