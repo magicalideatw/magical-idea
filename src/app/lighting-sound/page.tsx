@@ -153,7 +153,8 @@ const PRICING_PLANS = [
   {
     title: "活動音響技術服務",
     price: "NT$5,000 起",
-    duration: "／4 小時",
+    serviceDuration: "基本 4 小時服務",
+    setupTeardown: "含架設約 1 小時＋撤場約 1 小時",
     features: [
       "活動音響系統",
       "麥克風與音訊設備",
@@ -166,7 +167,8 @@ const PRICING_PLANS = [
   {
     title: "燈光技術服務",
     price: "NT$5,000 起",
-    duration: "／4 小時",
+    serviceDuration: "基本 4 小時服務",
+    setupTeardown: "含架設約 1 小時＋撤場約 1 小時",
     features: [
       "舞台燈光系統",
       "LED 舞台燈具",
@@ -179,7 +181,8 @@ const PRICING_PLANS = [
   {
     title: "燈光＋音響整合",
     price: "NT$10,000 起",
-    duration: "／4 小時",
+    serviceDuration: "基本 4 小時服務",
+    setupTeardown: "含架設約 1 小時＋撤場約 1 小時",
     features: [
       "活動燈光配置",
       "活動音響配置",
@@ -542,34 +545,37 @@ export default function LightingSoundPage() {
             />
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {PRICING_PLANS.map((plan, index) => (
-              <AnimatedSection key={plan.title} delay={index * 0.08}>
-                <article className="p-6 sm:p-8 rounded-xl border border-gold/10 bg-black/30 h-full flex flex-col">
-                  <h3 className="font-display text-lg text-white/90 mb-2 tracking-premium leading-snug">
-                    {plan.title}
-                  </h3>
-                  <p className="mb-1">
-                    <span className="text-gold/75 text-xl font-light">
-                      {plan.price}
-                    </span>
-                    <span className="text-white/40 text-sm font-light">
-                      {plan.duration}
-                    </span>
+            {PRICING_PLANS.map((plan) => (
+              <article
+                key={plan.title}
+                className="p-6 sm:p-8 rounded-xl border border-gold/10 bg-black/30 h-full w-full min-w-0 flex flex-col"
+              >
+                <h3 className="font-display text-lg text-white/90 mb-3 tracking-premium leading-snug">
+                  {plan.title}
+                </h3>
+                <div className="mb-5 pb-5 border-b border-white/[0.08] space-y-2">
+                  <p className="text-gold/80 text-xl sm:text-2xl font-light leading-snug">
+                    {plan.price}
                   </p>
-                  <p className="text-white/30 text-xs mb-5">基礎方案起價</p>
-                  <ul className="space-y-2.5 flex-1">
-                    {plan.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex items-start gap-2.5 text-white/45 text-sm leading-relaxed"
-                      >
-                        <span className="w-1 h-1 rounded-full bg-gold/50 shrink-0 mt-2" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              </AnimatedSection>
+                  <p className="text-white/75 text-sm sm:text-base font-light leading-snug">
+                    {plan.serviceDuration}
+                  </p>
+                  <p className="text-white/60 text-sm leading-relaxed">
+                    {plan.setupTeardown}
+                  </p>
+                </div>
+                <ul className="space-y-2.5 flex-1">
+                  {plan.features.map((feature) => (
+                    <li
+                      key={feature}
+                      className="flex items-start gap-2.5 text-white/45 text-sm leading-relaxed"
+                    >
+                      <span className="w-1 h-1 rounded-full bg-gold/50 shrink-0 mt-2" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </article>
             ))}
           </div>
           <AnimatedSection delay={0.12}>
