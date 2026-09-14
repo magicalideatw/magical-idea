@@ -37,9 +37,6 @@ const DESCRIPTION =
 const SERVICE_AREA_TEXT =
   "主要服務雙北、桃園、新竹及苗栗地區，提供活動燈光、舞台音響與現場技術服務；若活動位於其他縣市，也歡迎提出需求，我們將依活動內容、場地與執行條件進行評估。";
 
-const PRICING_DISCLAIMER =
-  "以上為基礎方案起始價格（含 4 小時服務）。實際報價將依活動規模、場地、設備需求與服務時間評估。";
-
 const SERVICE_OFFERINGS = [
   {
     title: "舞台燈光",
@@ -576,10 +573,43 @@ export default function LightingSoundPage() {
             ))}
           </div>
           <AnimatedSection delay={0.12}>
-            <p className="mt-8 max-w-3xl mx-auto text-center text-white/40 text-sm leading-relaxed">
-              {PRICING_DISCLAIMER}
-            </p>
-            <p className="mt-4 text-center">
+            <div className="mt-8 max-w-3xl mx-auto space-y-8 text-left">
+              <div className="space-y-3">
+                <p className="font-display text-sm sm:text-base tracking-premium">
+                  <span className="gold-gradient-text">服務時間說明</span>
+                </p>
+                <p className="text-white/45 text-sm leading-relaxed">
+                  服務時間包含設備架設與撤場，各約 1 小時。
+                </p>
+                <p className="text-white/45 text-sm leading-relaxed">
+                  實際時間會依活動場地、設備數量及現場條件調整。
+                </p>
+                <p className="text-white/45 text-sm leading-relaxed">例如：</p>
+                <ul className="space-y-3 text-white/45 text-sm leading-relaxed">
+                  <li>
+                    活動 2 小時 → 約 4 小時服務
+                    <span className="block text-white/35 text-xs mt-1 font-light">
+                      （架設 1 小時＋活動 2 小時＋撤場 1 小時）
+                    </span>
+                  </li>
+                  <li>
+                    活動 6 小時 → 約 8 小時服務
+                    <span className="block text-white/35 text-xs mt-1 font-light">
+                      （架設 1 小時＋活動 6 小時＋撤場 1 小時）
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              <div className="space-y-3 pt-6 border-t border-white/[0.06]">
+                <p className="font-display text-sm sm:text-base tracking-premium">
+                  <span className="text-gold/65">特殊日期與時段</span>
+                </p>
+                <p className="text-white/45 text-sm leading-relaxed">
+                  春節、跨年、連續假期、深夜／凌晨跨夜等特殊日期或時段，可能另行計算費用，實際依活動需求評估。
+                </p>
+              </div>
+            </div>
+            <p className="mt-8 text-center">
               <Link
                 href="/pricing"
                 className="inline-flex items-center gap-2 text-gold/60 text-sm hover:text-gold transition-colors"
