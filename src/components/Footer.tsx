@@ -36,6 +36,14 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/articles"
+                  className="text-white/40 hover:text-gold text-sm transition-colors duration-500"
+                >
+                  活動指南
+                </Link>
+              </li>
             </ul>
           </div>
 

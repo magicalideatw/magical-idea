@@ -227,4 +227,5 @@ export const SEO_NAV_LINKS = [
   { href: "/services/stage-magic", label: "舞台魔術" },
   { href: "/pricing", label: "演出費用" },
   { href: "/lighting-sound", label: "燈光音響" },
+  { href: "/articles", label: "活動指南" },
 ] as const;
