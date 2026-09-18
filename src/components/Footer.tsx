@@ -76,25 +76,25 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 sm:mt-20 pt-8 border-t border-white/[0.04] flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
-          <div className="flex flex-col items-center sm:items-start gap-1.5 text-center sm:text-left">
-            <p className="font-en text-white/20 text-[11px] tracking-wide">
+        <div className="mt-16 sm:mt-20 pt-8 border-t border-white/[0.04] flex flex-col items-center gap-3 sm:gap-4">
+          <div className="flex w-full flex-col sm:flex-row justify-between items-center gap-3">
+            <p className="font-en text-white/20 text-[11px] tracking-wide text-center sm:text-left">
               © {new Date().getFullYear()} {SITE.nameEn}. All rights reserved.
             </p>
             <p className="font-en text-white/20 text-[11px] tracking-wide">
-              網站製作｜
-              <a
-                href="https://www.sitecraft.com.tw/"
-                className="text-white/25 hover:text-gold/55 transition-colors duration-500"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                好站製所 SITECRAFT
-              </a>
+              Crafted with precision ✦
             </p>
           </div>
-          <p className="font-en text-white/20 text-[11px] tracking-wide">
-            Crafted with precision ✦
+          <p className="font-en text-white/20 text-[11px] tracking-wide text-center w-full">
+            網站製作｜
+            <a
+              href="https://www.sitecraft.com.tw/"
+              className="text-white/25 hover:text-gold/55 transition-colors duration-500"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              好站製所 SITECRAFT
+            </a>
           </p>
         </div>
       </div>
