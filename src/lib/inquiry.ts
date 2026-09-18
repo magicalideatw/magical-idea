@@ -42,7 +42,7 @@ export const BUDGET_OPTIONS = [
 ] as const;
 
 export const BUDGET_FIELD_HINT =
-  "魔術演出 NT$10,000 起；燈光／音響技術服務 NT$5,000 起（4 小時），實際費用依活動需求報價。";
+  "魔術演出 NT$10,000 起；音響技術服務 NT$5,000 起（4 小時服務，含前後各約 1 小時架設與撤場，活動現場使用約 2 小時），實際費用依活動需求報價。";
 
 const EVENT_TYPE_LABELS: Record<string, string> = Object.fromEntries(
   EVENT_TYPE_OPTIONS.map((option) => [option.value, option.label]),
