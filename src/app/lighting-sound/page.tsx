@@ -149,12 +149,16 @@ const FAQ_ITEMS = [
   },
 ];
 
+const PRICING_SERVICE_TIME_LINES = [
+  "基本服務時間｜4 小時",
+  "活動使用｜約 2 小時",
+  "架設／撤場｜前後各約 1 小時",
+] as const;
+
 const PRICING_PLANS = [
   {
     title: "活動音響技術服務",
     price: "NT$5,000 起",
-    serviceDuration: "基本 4 小時服務",
-    setupTeardown: "含架設約 1 小時＋撤場約 1 小時",
     features: [
       "活動音響系統",
       "麥克風與音訊設備",
@@ -167,8 +171,6 @@ const PRICING_PLANS = [
   {
     title: "燈光技術服務",
     price: "NT$5,000 起",
-    serviceDuration: "基本 4 小時服務",
-    setupTeardown: "含架設約 1 小時＋撤場約 1 小時",
     features: [
       "舞台燈光系統",
       "LED 舞台燈具",
@@ -181,8 +183,6 @@ const PRICING_PLANS = [
   {
     title: "燈光＋音響整合",
     price: "NT$10,000 起",
-    serviceDuration: "基本 4 小時服務",
-    setupTeardown: "含架設約 1 小時＋撤場約 1 小時",
     features: [
       "活動燈光配置",
       "活動音響配置",
@@ -557,12 +557,20 @@ export default function LightingSoundPage() {
                   <p className="text-gold/80 text-xl sm:text-2xl font-light leading-snug">
                     {plan.price}
                   </p>
-                  <p className="text-white/75 text-sm sm:text-base font-light leading-snug">
-                    {plan.serviceDuration}
-                  </p>
-                  <p className="text-white/60 text-sm leading-relaxed">
-                    {plan.setupTeardown}
-                  </p>
+                  <div className="space-y-1.5">
+                    {PRICING_SERVICE_TIME_LINES.map((line, index) => (
+                      <p
+                        key={line}
+                        className={
+                          index === 0
+                            ? "text-white/75 text-sm sm:text-base font-light leading-snug"
+                            : "text-white/60 text-sm leading-relaxed"
+                        }
+                      >
+                        {line}
+                      </p>
+                    ))}
+                  </div>
                 </div>
                 <ul className="space-y-2.5 flex-1">
                   {plan.features.map((feature) => (
