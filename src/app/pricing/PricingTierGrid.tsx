@@ -5,6 +5,12 @@ import SectionHeading from "@/components/SectionHeading";
 import { PRICING_DISCLAIMER } from "@/lib/seo";
 
 const PRICING_TIERS = [
+  {
+    title: "經典魔術商業秀",
+    price: "NT$8,000 起",
+    subtitle: "約 10–15 分鐘｜精選經典魔術演出",
+    description: "適合企業活動、社區活動、開幕及各類商業場合",
+  },
   { title: "近距離魔術", price: "NT$10,000 起" },
   { title: "舞台魔術｜約 15 分鐘", price: "NT$15,000 起" },
   { title: "舞台魔術｜約 20–30 分鐘", price: "NT$20,000 起" },
@@ -14,16 +20,6 @@ const PRICING_TIERS = [
   },
   { title: "客製化演出", price: "依演出內容與製作需求報價" },
 ] as const;
-
-function getGridItemClass(index: number) {
-  if (index < 3) {
-    return "lg:col-span-2";
-  }
-  if (index === 3) {
-    return "lg:col-span-2 lg:col-start-2";
-  }
-  return "lg:col-span-2 lg:col-start-4";
-}
 
 function isFixedPrice(price: string) {
   return price.startsWith("NT$");
@@ -41,12 +37,12 @@ export default function PricingTierGrid() {
           />
         </AnimatedSection>
 
-        <div className="grid w-full max-w-5xl grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-6">
+        <div className="grid w-full max-w-5xl grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6">
           {PRICING_TIERS.map((tier, index) => (
             <AnimatedSection
               key={tier.title}
               delay={index * 0.06}
-              className={`h-full min-w-0 w-full ${getGridItemClass(index)}`}
+              className="h-full min-w-0 w-full"
             >
               <article className="flex h-full w-full min-w-0 flex-col rounded-xl border border-gold/10 bg-black/30 px-5 py-8 sm:px-7 sm:py-10">
                 <h2 className="mb-4 font-display text-lg leading-relaxed tracking-premium text-white/90 sm:text-xl">
@@ -61,6 +57,16 @@ export default function PricingTierGrid() {
                 >
                   {tier.price}
                 </p>
+                {"subtitle" in tier && tier.subtitle ? (
+                  <p className="mt-4 text-sm leading-relaxed text-white/55">
+                    {tier.subtitle}
+                  </p>
+                ) : null}
+                {"description" in tier && tier.description ? (
+                  <p className="mt-2 text-sm leading-relaxed text-white/45">
+                    {tier.description}
+                  </p>
+                ) : null}
               </article>
             </AnimatedSection>
           ))}
