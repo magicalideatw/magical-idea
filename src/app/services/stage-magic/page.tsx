@@ -10,16 +10,25 @@ import { COOPERATION_STEPS } from "@/lib/seo";
 
 const PATH = "/services/stage-magic";
 
-const TITLE = "舞台魔術表演｜專業舞台魔術師演出｜魔幻點子表演娛樂";
+const TITLE = "魔術表演｜專業魔術演出｜魔幻點子表演娛樂";
 
 const DESCRIPTION =
-  "專業舞台魔術表演，適合企業活動、尾牙、春酒、婚宴、商業活動及各類舞台演出。15 分鐘 NT$15,000 起，20–30 分鐘 NT$20,000 起。";
+  "魔幻點子表演娛樂提供專業魔術表演，適合企業活動、尾牙、春酒、婚宴與各類商業活動。可依活動人數、場地與流程安排舞台魔術、近距離魔術及互動演出。";
+
+const SHARE_DESCRIPTION =
+  "專業魔術表演，適合企業活動、尾牙、春酒、婚宴與各類商業活動，依活動需求安排舞台魔術、近距離魔術與互動演出。";
+
+const SCHEMA_SERVICE_NAME = "魔術表演｜魔幻點子表演娛樂";
+
+const SCHEMA_DESCRIPTION =
+  "魔幻點子表演娛樂提供企業活動、尾牙、春酒、婚宴與各類商業活動的魔術表演，可依活動需求安排舞台魔術、近距離魔術及互動演出。";
 
 export const metadata = createPageMetadata({
   title: TITLE,
   description: DESCRIPTION,
+  shareDescription: SHARE_DESCRIPTION,
   path: PATH,
-  ogImageAlt: "專業舞台魔術表演現場",
+  ogImageAlt: "專業魔術表演現場",
 });
 
 const PERFORMANCE_PRICING_TIERS = [
@@ -124,8 +133,8 @@ export default function StageMagicPage() {
   const jsonLd = buildSeoPageJsonLd({
     path: PATH,
     title: TITLE,
-    description: DESCRIPTION,
-    serviceName: "魔術表演",
+    description: SCHEMA_DESCRIPTION,
+    serviceName: SCHEMA_SERVICE_NAME,
     breadcrumbs: [
       { name: "首頁", path: "/" },
       { name: "演出服務", path: "/services" },

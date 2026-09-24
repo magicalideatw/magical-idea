@@ -35,6 +35,8 @@ type PageSeoInput = {
   description: string;
   path: string;
   ogImageAlt?: string;
+  /** og:description / twitter:description；未設定時與 description 相同 */
+  shareDescription?: string;
 };
 
 export function createPageMetadata({
@@ -42,8 +44,10 @@ export function createPageMetadata({
   description,
   path,
   ogImageAlt = "魔幻點子表演娛樂魔術演出",
+  shareDescription,
 }: PageSeoInput): import("next").Metadata {
   const url = `${SITE_URL}${path}`;
+  const socialDescription = shareDescription ?? description;
 
   return {
     title: { absolute: title },
@@ -55,7 +59,7 @@ export function createPageMetadata({
     },
     openGraph: {
       title,
-      description,
+      description: socialDescription,
       url,
       locale: "zh_TW",
       type: "website",
@@ -71,7 +75,7 @@ export function createPageMetadata({
     twitter: {
       card: "summary_large_image",
       title,
-      description,
+      description: socialDescription,
       images: [DEFAULT_OG_IMAGE],
     },
   };
