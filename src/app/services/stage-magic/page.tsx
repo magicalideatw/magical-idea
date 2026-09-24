@@ -1,20 +1,12 @@
-import { Sparkles, Building2, Heart, Megaphone, CalendarDays } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import Breadcrumb from "@/components/Breadcrumb";
 import JsonLd from "@/components/JsonLd";
 import SeoHero from "@/components/seo/SeoHero";
-import BulletSection from "@/components/seo/BulletSection";
-import ServiceCards from "@/components/seo/ServiceCards";
-import SeoPricingSection from "@/components/seo/SeoPricingSection";
-import ProcessSection from "@/components/seo/ProcessSection";
-import FaqSection from "@/components/seo/FaqSection";
-import PageCta from "@/components/seo/PageCta";
 import RelatedLinks from "@/components/seo/RelatedLinks";
-import ServiceInformationSection from "@/components/ServiceInformationSection";
-import { stageMagicServiceInfo } from "@/lib/service-info/stage-magic-service-info";
 import AnimatedSection from "@/components/AnimatedSection";
-import SectionHeading from "@/components/SectionHeading";
-import { brandHeading, createPageMetadata, buildSeoPageJsonLd } from "@/lib/seo";
-import { FAQ_STAGE_MAGIC_PRICE, STAGE_MAGIC_TIERS } from "@/lib/constants";
+import { createPageMetadata, buildSeoPageJsonLd } from "@/lib/seo";
+import { COOPERATION_STEPS } from "@/lib/seo";
 
 const PATH = "/services/stage-magic";
 
@@ -30,41 +22,110 @@ export const metadata = createPageMetadata({
   ogImageAlt: "專業舞台魔術表演現場",
 });
 
-const introPoints = [
-  "舞台魔術以視覺效果與現場節奏感為核心，適合需要「全場聚焦」的活動時段",
-  "可安排為開場、中段重點節目或壓軸演出",
-  "結合燈光、音響與舞台空間，呈現完整的魔術段落",
-  "適合企業活動、尾牙、春酒、婚宴與公開活動",
-];
+const PERFORMANCE_PRICING_TIERS = [
+  {
+    title: "經典魔術商業秀",
+    price: "NT$8,000 起",
+    description:
+      "約 10–15 分鐘｜精選經典魔術演出，適合企業活動、社區活動、開幕及各類商業場合。",
+  },
+  {
+    title: "近距離魔術",
+    price: "NT$10,000 起",
+    description:
+      "適合餐會、婚宴、品牌活動等需要近距離互動的場合，可穿插於入場、用餐或交流時段。",
+  },
+  {
+    title: "舞台魔術｜約 15 分鐘",
+    price: "NT$15,000 起",
+    description:
+      "適合流程較緊湊、需要精簡舞台節目的場合，作為重點演出段落。",
+  },
+  {
+    title: "舞台魔術｜約 20–30 分鐘",
+    price: "NT$20,000 起",
+    description:
+      "適合尾牙、春酒、企業晚會等需要較完整舞台魔術演出的活動。",
+  },
+] as const;
 
 const faqItems = [
   {
-    question: "舞台魔術表演費用是多少？",
-    answer: FAQ_STAGE_MAGIC_PRICE,
+    question: "魔術表演適合哪些活動？",
+    answer:
+      "常見於公司尾牙、春酒、企業活動、婚宴、社區活動、商業活動、品牌活動與公開演出。可依流程選擇舞台演出、近距離互動，或兩者搭配。",
   },
   {
-    question: "舞台魔術適合哪些活動？",
+    question: "魔術表演可以和觀眾互動嗎？",
     answer:
-      "常見於企業尾牙、春酒、婚宴、商業發表、公開活動等需要舞台呈現的場合。",
+      "可以。近距離魔術以桌邊或人群互動為主；舞台魔術也可依節目安排邀請觀眾上台。互動程度會依人數、場地與活動性質規劃。",
   },
   {
-    question: "15 分鐘與 20–30 分鐘該怎麼選？",
+    question: "魔術表演通常需要多久？",
     answer:
-      "15 分鐘適合流程較緊湊、需要精簡節目的場合；20–30 分鐘則適合尾牙、春酒、企業晚會等需要完整舞台演出的活動。",
+      "經典魔術商業秀約 10–15 分鐘；舞台魔術常見為約 15 分鐘或 20–30 分鐘方案；近距離魔術則依活動流程與覆蓋範圍安排。",
   },
   {
-    question: "舞台魔術需要什麼場地條件？",
+    question: "魔術表演需要舞台嗎？",
     answer:
-      "通常需要可供觀眾清楚觀看的演出空間，並視活動規模討論舞台、燈光與音響配置。實際條件依場地評估。",
+      "不一定。舞台魔術需要適合全場觀看的演出空間；近距離魔術通常不需要大型舞台。請提供場地型態，以便建議適合的演出形式。",
+  },
+  {
+    question: "魔術表演需要音響嗎？",
+    answer:
+      "視演出形式而定。近距離魔術設備需求相對單純；舞台魔術通常需要麥克風與適當音響，並視需要搭配燈光。若活動需一併評估設備，可參考活動燈光音響服務。",
+  },
+  {
+    question: "魔術表演費用怎麼計算？",
+    answer:
+      "依演出形式而異：經典魔術商業秀 NT$8,000 起；近距離魔術 NT$10,000 起；舞台魔術約 15 分鐘 NT$15,000 起；約 20–30 分鐘 NT$20,000 起。企業／大型活動及客製化演出依需求報價。實際費用另依活動日期、地點、場地條件及製作需求評估。",
   },
 ];
+
+function SectionH2({
+  title,
+  className = "mb-6 sm:mb-8",
+}: {
+  title: string;
+  className?: string;
+}) {
+  return (
+    <h2
+      className={`font-display text-xl sm:text-2xl md:text-[1.75rem] font-medium tracking-tight leading-snug ${className}`}
+    >
+      <span className="gold-gradient-text">{title}</span>
+    </h2>
+  );
+}
+
+function ContentSection({
+  title,
+  children,
+  variant = "surface",
+}: {
+  title: string;
+  children: React.ReactNode;
+  variant?: "surface" | "gradient";
+}) {
+  const bg = variant === "gradient" ? "section-gradient" : "bg-surface";
+  return (
+    <section className={`section-padding ${bg}`}>
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+        <AnimatedSection>
+          <SectionH2 title={title} />
+          <div className="max-w-3xl">{children}</div>
+        </AnimatedSection>
+      </div>
+    </section>
+  );
+}
 
 export default function StageMagicPage() {
   const jsonLd = buildSeoPageJsonLd({
     path: PATH,
     title: TITLE,
     description: DESCRIPTION,
-    serviceName: "舞台魔術表演",
+    serviceName: "魔術表演",
     breadcrumbs: [
       { name: "首頁", path: "/" },
       { name: "演出服務", path: "/services" },
@@ -86,88 +147,134 @@ export default function StageMagicPage() {
       />
 
       <SeoHero
-        eyebrow="Stage Magic Performance"
-        title={brandHeading("舞台魔術表演")}
-        description="專業舞台魔術演出，為企業活動、尾牙、春酒、婚宴與商業活動打造全場聚焦的魔術節目。"
-        primaryCta={{ label: "詢問舞台魔術演出", href: "/contact" }}
+        eyebrow="Magic Performance"
+        title="魔術表演"
+        description="提供專業魔術表演與活動演出，依照活動形式、觀眾人數、場地條件與活動流程，規劃適合的演出內容，適用於企業活動、尾牙、春酒、婚宴與各類商業活動。"
+        primaryCta={{ label: "詢問魔術表演", href: "/contact" }}
         secondaryCta={{ label: "觀看演出影片", href: "/videos" }}
       />
 
-      <BulletSection
-        title="什麼是舞台魔術表演？"
-        items={introPoints}
-      />
-
-      <ServiceCards
-        title="舞台魔術適合哪些活動？"
-        items={[
-          {
-            icon: Building2,
-            title: "尾牙／春酒",
-            description: "適合作為企業尾牙或春酒的重點節目，帶動全場氣氛。",
-            suitable: ["公司尾牙", "春酒", "年終聚餐"],
-          },
-          {
-            icon: Sparkles,
-            title: "企業活動",
-            description: "適合發表會、週年慶、頒獎典禮等需要舞台呈現的場合。",
-            suitable: ["企業晚會", "週年慶", "頒獎活動"],
-          },
-          {
-            icon: Heart,
-            title: "婚宴",
-            description: "可為婚宴安排精緻舞台段落，增添驚喜與記憶點。",
-            suitable: ["婚宴", "訂婚宴", "歸寧宴"],
-          },
-          {
-            icon: Megaphone,
-            title: "商業／公開活動",
-            description: "適合需要視覺聚焦與現場互動的商業或公開演出。",
-            suitable: ["品牌活動", "公開演出", "開幕活動"],
-          },
-        ]}
-      />
-
-      <section className="section-padding bg-surface">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
-          <AnimatedSection>
-            <SectionHeading align="left" title="舞台魔術演出的特色" />
-          </AnimatedSection>
-          <ul className="max-w-3xl space-y-4">
-            {[
-              "視覺集中，適合全場同步觀賞",
-              "可配合活動流程安排開場、中段或壓軸",
-              "可依場地與活動規模調整演出內容",
-              "適合需要「現場感」與「驚喜感」的場合",
-            ].map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-3 text-white/50 text-sm sm:text-base leading-relaxed"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 mt-2" />
-                {item}
-              </li>
-            ))}
-          </ul>
+      <ContentSection title="魔術表演適合哪些活動？" variant="surface">
+        <div className="space-y-4 text-white/50 text-sm sm:text-base leading-relaxed">
+          <p>
+            魔術表演適合公司尾牙與春酒，可依活動流程安排舞台演出或觀眾互動，帶動全場氣氛。
+          </p>
+          <p>
+            企業活動如週年慶、頒獎典禮、家庭日或品牌發表，可選擇全場聚焦的舞台魔術，或穿插於流程中的互動演出。
+          </p>
+          <p>
+            婚宴與訂婚宴可安排精緻魔術段落或近距離互動，為賓客增添驚喜與記憶點。
+          </p>
+          <p>
+            社區活動、開幕與各類商業場合，也適合以魔術演出創造視覺聚焦，並依場地選擇舞台或近距離形式。
+          </p>
         </div>
-      </section>
+      </ContentSection>
+
+      <ContentSection title="魔術表演有哪些形式？" variant="gradient">
+        <div className="space-y-6">
+          {[
+            {
+              name: "舞台魔術",
+              text: "適合需要全場觀眾同步觀看的時段，可配合燈光、音響與舞台空間，呈現完整段落，常見於尾牙、春酒或正式節目流程。",
+            },
+            {
+              name: "近距離魔術",
+              text: "魔術師在賓客之間或桌邊演出，適合餐敘、交流時段，讓更多觀眾近距離參與。",
+            },
+            {
+              name: "互動式魔術",
+              text: "可安排觀眾上台或現場參與，依活動性質調整互動深度，常與舞台或近距離形式結合。",
+            },
+            {
+              name: "精簡型商業演出",
+              text: "經典魔術商業秀約 10–15 分鐘，適合企業活動、社區活動、開幕等需要精簡、標準商業節目的場合。",
+            },
+          ].map((item) => (
+            <div
+              key={item.name}
+              className="p-5 sm:p-6 rounded-xl border border-white/[0.06] bg-surface-elevated/20"
+            >
+              <p className="font-display text-base sm:text-lg text-white/88 mb-2 tracking-premium">
+                {item.name}
+              </p>
+              <p className="text-white/45 text-sm sm:text-base leading-relaxed">
+                {item.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </ContentSection>
+
+      <ContentSection title="魔術表演可以和觀眾互動嗎？" variant="surface">
+        <p className="text-white/50 text-sm sm:text-base leading-relaxed">
+          可以。魔術表演可以依活動性質安排不同程度的觀眾互動，例如邀請觀眾上台參與、
+          現場問答或近距離魔術等。近距離魔術以互動為核心；舞台魔術也可在節目中安排
+          短暫的觀眾參與。實際方式會依人數、場地、流程與希望呈現的氣氛一起規劃。
+        </p>
+      </ContentSection>
+
+      <ContentSection title="魔術表演通常需要多久？" variant="gradient">
+        <div className="space-y-4 text-white/50 text-sm sm:text-base leading-relaxed">
+          <p>
+            <span className="text-white/70">精簡型商業演出（經典魔術商業秀）</span>
+            約 10–15 分鐘，適合流程緊湊的活動段落。
+          </p>
+          <p>
+            <span className="text-white/70">舞台魔術｜約 15 分鐘</span>
+            適合需要精簡舞台節目的場合；NT$15,000 起。
+          </p>
+          <p>
+            <span className="text-white/70">舞台魔術｜約 20–30 分鐘</span>
+            適合需要較完整舞台內容的尾牙、春酒或企業晚會；NT$20,000 起。
+          </p>
+          <p>
+            <span className="text-white/70">近距離魔術</span>
+            則依活動流程、覆蓋桌數或區域安排時間，可與其他時段穿插。
+          </p>
+          <p>若流程特殊，也可依活動需求客製安排演出時間與形式。</p>
+        </div>
+      </ContentSection>
+
+      <ContentSection title="魔術表演需要舞台與音響嗎？" variant="surface">
+        <div className="space-y-4 text-white/50 text-sm sm:text-base leading-relaxed">
+          <p>
+            舞台魔術需要讓全場觀眾能清楚觀看的演出空間，並視活動規模評估舞台動線、
+            觀看距離，以及是否需要燈光強調。
+          </p>
+          <p>
+            近距離魔術通常不需要大型舞台，但需預留魔術師走動與與賓客互動的空間。
+          </p>
+          <p>
+            音響需求依演出形式而定：舞台魔術一般需要麥克風與適當音響；近距離魔術
+            設備需求相對單純。若活動本身尚未準備音響，可一併評估需求。
+          </p>
+          <p>
+            魔幻點子也提供{" "}
+            <Link
+              href="/lighting-sound"
+              className="text-gold/60 hover:text-gold transition-colors duration-300"
+            >
+              活動燈光音響
+            </Link>
+            整合服務，可依照活動規模與舞台魔術需求規劃燈光、音響及現場技術支援。
+          </p>
+        </div>
+      </ContentSection>
 
       <section className="section-padding section-gradient">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
           <AnimatedSection>
-            <SectionHeading
-              align="left"
-              title="舞台魔術演出方案"
-              description="依活動流程與需求，選擇適合的演出時間。"
-            />
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
-            {STAGE_MAGIC_TIERS.map((tier, index) => (
-              <AnimatedSection key={tier.title} delay={index * 0.08}>
-                <article className="p-6 sm:p-8 rounded-xl border border-gold/10 bg-surface-elevated/20 h-full">
-                  <h3 className="font-display text-lg sm:text-xl text-white/90 mb-2 tracking-premium leading-snug">
+            <SectionH2 title="魔術表演價格" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+              {PERFORMANCE_PRICING_TIERS.map((tier, index) => (
+                <article
+                  key={tier.title}
+                  className="p-6 sm:p-8 rounded-xl border border-gold/10 bg-surface-elevated/20 h-full"
+                >
+                  <p className="font-display text-lg sm:text-xl text-white/90 mb-2 tracking-premium leading-snug">
                     {tier.title}
-                  </h3>
+                  </p>
                   <p className="font-display text-xl sm:text-2xl gold-gradient-text mb-4 whitespace-nowrap">
                     {tier.price}
                   </p>
@@ -175,44 +282,76 @@ export default function StageMagicPage() {
                     {tier.description}
                   </p>
                 </article>
-              </AnimatedSection>
-            ))}
-          </div>
-          <AnimatedSection delay={0.12}>
-            <p className="mt-6 max-w-3xl text-white/40 text-sm leading-relaxed">
-              實際費用依活動日期、地點、演出時間、場地條件、演出內容及製作需求評估。
-            </p>
+              ))}
+            </div>
+            <div className="mt-6 max-w-3xl space-y-3 text-white/45 text-sm sm:text-base leading-relaxed">
+              <p>
+                企業／大型活動及客製化演出，依活動規模、演出時間與製作需求報價。
+              </p>
+              <p>
+                實際費用依活動日期、地點、演出時間、場地條件、演出內容及製作需求評估。{" "}
+                <Link
+                  href="/pricing"
+                  className="text-gold/60 hover:text-gold transition-colors duration-300"
+                >
+                  查看完整魔術表演費用
+                </Link>
+                。
+              </p>
+            </div>
           </AnimatedSection>
         </div>
       </section>
+
+      <ContentSection title="魔術表演如何安排？" variant="surface">
+        <div className="space-y-4 text-white/50 text-sm sm:text-base leading-relaxed">
+          <p>
+            安排魔術表演時，通常會一併確認活動人數、場地大小、活動流程、希望安排的
+            表演時間、觀眾互動方式，以及音響與燈光需求。這些因素都會影響適合的演出
+            形式與內容。
+          </p>
+          <p>
+            建議提供活動日期、地點、預計人數、流程表（是否含餐敘、抽獎、致詞等），
+            以及場地照片或平面配置，以便評估舞台魔術、近距離魔術或兩者搭配是否合適。
+          </p>
+          <p>一般合作流程如下：</p>
+          <ul className="space-y-3 pt-1">
+            {COOPERATION_STEPS.map((step) => (
+              <li key={step.step} className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 mt-2" />
+                <span>
+                  <span className="text-white/65">{step.title}</span>
+                  {" — "}
+                  {step.description}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </ContentSection>
 
       <section className="section-padding bg-surface">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
           <AnimatedSection>
-            <SectionHeading align="left" title="場地與舞台需求" />
+            <SectionH2 title="魔術表演常見問題" className="mb-8 sm:mb-10" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-5xl">
+              {faqItems.map((item) => (
+                <article
+                  key={item.question}
+                  className="p-6 sm:p-8 rounded-xl border border-white/[0.06] bg-surface-elevated/20 h-full"
+                >
+                  <p className="font-display text-base sm:text-lg text-white/90 mb-3 tracking-premium">
+                    {item.question}
+                  </p>
+                  <p className="text-white/45 text-sm leading-relaxed">
+                    {item.answer}
+                  </p>
+                </article>
+              ))}
+            </div>
           </AnimatedSection>
-          <div className="max-w-3xl flex items-start gap-4 p-6 sm:p-8 rounded-xl border border-white/[0.06] bg-surface-elevated/20">
-            <CalendarDays className="w-6 h-6 text-gold/70 shrink-0 mt-0.5" />
-            <p className="text-white/50 text-sm sm:text-base leading-relaxed">
-              舞台魔術通常需要適合觀眾觀看的演出空間，並視活動規模討論舞台、
-              動線、燈光與音響配置。請於詢價時提供場地資訊，以便評估最適合的演出方式。
-            </p>
-          </div>
         </div>
       </section>
-
-      <SeoPricingSection
-        title="完整演出費用"
-        subtitle="以下為全站演出起價，近距離魔術、舞台魔術與客製化方案一併列出。"
-        pricingLink={{
-          label: "查看完整魔術表演費用",
-          href: "/pricing",
-        }}
-      />
-
-      <ProcessSection title="合作流程" />
-
-      <FaqSection items={faqItems} />
 
       <RelatedLinks
         links={[
@@ -226,16 +365,33 @@ export default function StageMagicPage() {
             href: "/pricing",
             description: "查看各類魔術演出的價格說明",
           },
+          {
+            label: "活動燈光音響",
+            href: "/lighting-sound",
+            description: "舞台魔術所需的音響、燈光與現場技術",
+          },
         ]}
       />
 
-      <PageCta
-        title="預約舞台魔術演出"
-        description="提供活動日期、地點、預計人數與場地資訊，我們將依活動內容評估適合的舞台魔術方案。"
-        buttonLabel="詢問舞台魔術演出"
-      />
-
-      <ServiceInformationSection content={stageMagicServiceInfo} />
+      <section className="section-padding section-gradient">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 lg:px-12 text-center">
+          <AnimatedSection>
+            <p className="font-display text-[clamp(1.75rem,5vw,3rem)] font-medium tracking-tight mb-5 sm:mb-6 leading-tight">
+              <span className="gold-gradient-text">預約魔術表演</span>
+            </p>
+            <p className="text-white/45 text-sm sm:text-base md:text-lg mb-8 sm:mb-10 font-light leading-relaxed text-balance">
+              提供活動日期、地點、預計人數與場地資訊，我們將依活動內容評估適合的魔術演出方案。
+            </p>
+            <Link
+              href="/contact"
+              className="btn-primary justify-center text-sm sm:text-base mx-auto inline-flex"
+            >
+              詢問魔術表演
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </AnimatedSection>
+        </div>
+      </section>
     </>
   );
 }
